@@ -135,10 +135,10 @@
 		<p>I had the honor of being invited as a judge for the <a href="http://www.ncsc.co.in/" target="_blank">National Children's Science Congress</a> in Bengaluru, where I had the opportunity to assess the innovative science projects of our brilliant young minds and discuss my research with them.</p>
         <div class="image-row">
             <div class="image-container">
-                <img src="images_outreach/IMG_NCSC3.jpg" alt="National Children Science Congress Image 1" />
+                <img class="rounded" src="images_outreach/IMG_NCSC3.jpg" alt="National Children Science Congress Image 1" />
             </div>
             <div class="image-container">
-                <img src="images_outreach/IMG_NCSC2.jpg" alt="National Children Science Congress Image 2" />
+                <img class="rounded" src="images_outreach/IMG_NCSC2.jpg" alt="National Children Science Congress Image 2" />
             </div>
         </div>
 
@@ -147,24 +147,22 @@
 
 <style>
     .image-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px; /* For spacing between rows */
-    }
-    
-    .image-container {
-        width: 48%; /* Adjusted to fit two images in one row with some spacing */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .image-container img {
-        width: 100%; /* Set to fill the width of the container */
-        height: 100%; /* Set to fill the height of the container */
-        object-fit: contain; /* Ensures that the entire image is visible */
-        border-radius: 8px; /* For rounded corners */
-    }
+		display: flex; /* Utilizes Flexbox */
+		gap: 20px; /* Space between the images. Adjust as necessary. */
+	}
+	
+	.image-container {
+		flex: 1; /* Allows each image container to take equal space in the row */
+		overflow: hidden; /* Helps in maintaining the rounded corners */
+	}
+	
+	.image-container img.rounded {
+		display: block;
+		width: 100%; /* Ensures the images are the same size as their container */
+		height: 100%; /* Ensures uniform height */
+		object-fit: cover; /* Ensures that the images cover the area of their container without distorting their aspect ratio */
+		border-radius: 15px; /* Adjust as needed for the degree of rounded corners you want */
+	}
 </style>
 
 
