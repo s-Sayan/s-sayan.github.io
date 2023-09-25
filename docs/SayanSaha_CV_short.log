@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  25 SEP 2023 14:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  25 SEP 2023 14:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**SayanSaha_CV.tex
-(./SayanSaha_CV.tex
+**SayanSaha_CV_short.tex
+(./SayanSaha_CV_short.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22>
 (/usr/local/texlive/2023/texmf-dist/tex/latex/moderncv/moderncv.cls
@@ -714,8 +714,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 30.
 Package hyperref Info: Option `bookmarksopen' set `true' on input line 30.
- (./SayanSaha_CV.aux)
-\openout1 = `SayanSaha_CV.aux'.
+ (./SayanSaha_CV_short.aux)
+\openout1 = `SayanSaha_CV_short.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
@@ -814,9 +814,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring OFF on input line 30.
-(./SayanSaha_CV.out) (./SayanSaha_CV.out)
+(./SayanSaha_CV_short.out) (./SayanSaha_CV_short.out)
 \@outlinefile=\write4
-\openout4 = `SayanSaha_CV.out'.
+\openout4 = `SayanSaha_CV_short.out'.
 
 \pagenumberwidth=\skip99
 LaTeX Font Info:    Font shape `OT1/cmss/m/it' in size <10> not available
@@ -865,33 +865,33 @@ Underfull \hbox (badness 10000) in paragraph at lines 31--31
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 33.
+(Font)              <10.95> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 33.
+(Font)              <8> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 33.
+(Font)              <6> on input line 34.
 [1
 
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
 al/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free2.enc}{/usr/loca
 l/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc}{/usr/local
 /texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5brands0.enc}]
-[2] [3] (./SayanSaha_CV.aux)
+[2] (./SayanSaha_CV_short.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 9.12pt have occurred.
 
-Package rerunfilecheck Info: File `SayanSaha_CV.out' has not changed.
-(rerunfilecheck)             Checksum: B781DFCFB271A9FFAE12CBB6C84514CA;2060.
+Package rerunfilecheck Info: File `SayanSaha_CV_short.out' has not changed.
+(rerunfilecheck)             Checksum: 9082A91C8465DB971490BEA315FC5215;1629.
  ) 
 Here is how much of TeX's memory you used:
- 26003 strings out of 476025
- 502811 string characters out of 5790017
- 1889388 words of memory out of 5000000
- 45881 multiletter control sequences out of 15000+600000
- 524794 words of font info for 127 fonts, out of 8000000 for 9000
+ 25970 strings out of 476025
+ 502579 string characters out of 5790017
+ 1894388 words of memory out of 5000000
+ 45876 multiletter control sequences out of 15000+600000
+ 524119 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 129i,12n,122p,1009b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 129i,13n,122p,1015b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
 me5Brands-Regular.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/fo
 ntawesome5/FontAwesome5Free-Regular.pfb></usr/local/texlive/2023/texmf-dist/fon
@@ -903,10 +903,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
-Output written on SayanSaha_CV.pdf (3 pages, 156127 bytes).
+Output written on SayanSaha_CV_short.pdf (2 pages, 151627 bytes).
 PDF statistics:
- 178 PDF objects out of 1000 (max. 8388607)
- 149 compressed objects within 2 object streams
- 20 named destinations out of 1000 (max. 500000)
- 32909 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 148 PDF objects out of 1000 (max. 8388607)
+ 120 compressed objects within 2 object streams
+ 14 named destinations out of 1000 (max. 500000)
+ 32869 words of extra memory for PDF output out of 35830 (max. 10000000)
 
