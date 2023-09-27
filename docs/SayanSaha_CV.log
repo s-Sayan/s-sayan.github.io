@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  25 SEP 2023 14:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  27 SEP 2023 13:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -865,11 +865,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 31--31
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 33.
+(Font)              <10.95> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 33.
+(Font)              <8> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 33.
+(Font)              <6> on input line 34.
 [1
 
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
@@ -882,16 +882,16 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 9.12pt have occurred.
 
 Package rerunfilecheck Info: File `SayanSaha_CV.out' has not changed.
-(rerunfilecheck)             Checksum: B781DFCFB271A9FFAE12CBB6C84514CA;2060.
+(rerunfilecheck)             Checksum: E964852BF11830B51A01B153D66DD273;1970.
  ) 
 Here is how much of TeX's memory you used:
- 26003 strings out of 476025
- 502811 string characters out of 5790017
- 1889388 words of memory out of 5000000
- 45881 multiletter control sequences out of 15000+600000
- 524794 words of font info for 127 fonts, out of 8000000 for 9000
+ 26005 strings out of 476025
+ 502819 string characters out of 5790017
+ 1891388 words of memory out of 5000000
+ 45880 multiletter control sequences out of 15000+600000
+ 524924 words of font info for 129 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 129i,12n,122p,1009b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 129i,13n,122p,1009b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
 me5Brands-Regular.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/fo
 ntawesome5/FontAwesome5Free-Regular.pfb></usr/local/texlive/2023/texmf-dist/fon
@@ -903,10 +903,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
-Output written on SayanSaha_CV.pdf (3 pages, 156127 bytes).
+Output written on SayanSaha_CV.pdf (3 pages, 155926 bytes).
 PDF statistics:
- 178 PDF objects out of 1000 (max. 8388607)
- 149 compressed objects within 2 object streams
- 20 named destinations out of 1000 (max. 500000)
- 32909 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 176 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
+ 19 named destinations out of 1000 (max. 500000)
+ 32901 words of extra memory for PDF output out of 35830 (max. 10000000)
 
