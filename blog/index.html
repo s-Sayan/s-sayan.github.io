@@ -10,6 +10,103 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			#blog2Modal {
+				color: black !important;
+			}
+			
+			#blog2Modal h2,
+			#blog2Modal h3,
+			#blog2Modal p {
+				color: black !important;
+			}
+		</style>
+		<style>
+			#blog1Modal {
+				color: black !important;
+			}
+			
+			#blog1Modal h2,
+			#blog1Modal h3,
+			#blog1Modal p {
+				color: black !important;
+			}
+		</style>
+		<style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+    <style>
+        .typewriter {
+			color: white;
+			font-weight: bold;
+			border-right: .15em solid orange;
+			overflow: hidden;
+			margin: 0 auto;
+			letter-spacing: .15em;
+		}
+        
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: orange;
+            }
+        }
+    </style>
+	<style>
+		.typewriter1 {
+			color: white;
+			font-weight: bold;
+			;
+			overflow: hidden;
+			margin: 0 auto;
+			letter-spacing: .15em;
+		}
+        
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                
+            }
+        }
+	</style>
 	</head>
 	<body class="is-preload">
 
@@ -20,12 +117,19 @@
 
 					<!-- Logo -->
 						<div id="logo">
-							<span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span>
-							<h1 id="title">Cosmo-Blogs</h1>
-							<p>a personal blog on research <br />
-								and topics of interest</p>
+							<span class="image avatar48"><img src="images/milkyway.png" alt="" /></span>
+							<h1 id="title">Sayan's Cosmic Corner</h1>
+							<p>Journeying Through the Infinite, <br />
+								with a Touch of Fun!</p>
 						</div>
-
+						<style>
+							* {
+								color: white;
+							}
+							h1, h2, h3, h4, h5, h6 {
+								color: white !important;
+							}
+						</style>
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
@@ -57,50 +161,39 @@
 		<!-- Main -->
 			<div id="main">
 
-				<!-- Intro -->
-					<section id="top" class="one dark cover">
-						<div class="container"><img src="images/tarantula-nebula-jwst.jpg"width="600" height="400">
-							
+<!-- Intro -->
+<section id="top" class="one dark cover" style="background: url('images/fullsizecosmosfield.jpg') no-repeat center center; background-size: cover;">
+    <div class="container">
+        <header>
+            <h2 id="typewriter" class="typewriter" style="color: white; font-weight: bold;"></h2>
+        </header>
 
-							<header>
-								<h2 class="alt">Hi! I'm <strong>Sayan</strong>, and welcome to my personal blog page, where I try to talk about 
-									various topics
-							        in theoratical and observational cosmology in a non-technical way</h2>
-								<p>Cosmology is the study of the universe as a whole<br />
-								as a function of time and space.</p>
-							</header>
+        <footer>
+            <a href="#blogs" class="button scrolly">Let's get started</a>
+        </footer>
+    </div>
+</section>
 
-							<footer>
-								<a href="#blogs" class="button scrolly">Let's get started</a>
-							</footer>
-
-						</div>
-					</section>
-
-				<!-- Portfolio -->
-					<section id="blogs" class="one dark cover">
+				    <!-- Portfolio -->
+					<section id="blogs" class="two" style="background: url('images/fullsizecosmosfield.jpg') no-repeat center center; background-size: cover;">
 						<div class="container">
-
 							<header>
-								<h2>Blogs</h2>
+								<h2 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">Blogs</h2>
 							</header>
-
-							<p>The universe is amazingly simple. It is so smooth looks exactly the same everywhere and 
-								every direction, if you zoom out enough. Although If you really pay attention it has some exotic irregularites
-							Which contains the information about the very early stages after the Big-Bang</p>
-
+							<h3 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">Ever thought of the universe as a huge cosmic stew—smooth and identical wherever you look? Dive in closer; it's full of enchanting quirks! They’re whispers of the universe's baby secrets from just after the Big Bang! Intrigued? Jump in to unravel the amusing mysteries of the cosmos!</h3>
+							<p></p>
 							<div class="row">
 								<div class="col-4 col-12-mobile">
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic02.jpg" alt="" /></a>
+										<a href="javascript:void(0);" class="image fit" id="modalOpenBtn"><img src="images/sol.png" alt=""/></a>
 										<header>
-											<h3>Ipsum Feugiat</h3>
+											<h3><b>Deciphering the Speed of Light</b></h3>
 										</header>
 									</article>
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic03.jpg" alt="" /></a>
+										<a href="javascript:void(0);" class="image fit" id="modalOpenBtn2"><img src="images/Planck_CMB.jpg" alt=""/></a>
 										<header>
-											<h3>Rhoncus Semper</h3>
+											<h3><b>Universe’s Baby Picture!</b></h3>
 										</header>
 									</article>
 								</div>
@@ -133,40 +226,41 @@
 									</article>
 								</div>
 							</div>
-
+							
+							
 						</div>
 					</section>
 
 				<!-- About Me -->
-					<section id="about" class="three">
+					<section id="about" class="three" style="background: url('images/fullsizecosmosfield.jpg') no-repeat center center; background-size: cover;">
 						<div class="container">
 
 							<header>
-								<h2>About Me</h2>
+								<h2 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">About Me</h2>
 							</header>
 
-							<a href="#" class="image"><img src="images/sayan_profile_pic.jpg" width="400" height="425" alt="" /></a>
+							<a class="image"><img src="images/sayan_profile_pic.jpg" width="400" height="425" alt="" /></a>
 
-							<p>Well, first of all I am really glad that you are so much interested about me :)
+							<h3 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">Well, first of all I am really glad that you are so much interested about me :)
 							   and thanks for checking out my website. I am a PhD student at IISER Pune. But Currently, I am 
 							   a Swiss Government Excellence Fellow at the University of Geneva (Département de Physique Théorique).
 							    I am also a visiting researcher at the Raman Research Institute in Bengaluru (Astronomy and Astrophysics Department), India 
-							</p>
+							</h3>
 
 						</div>
 					</section>
 
 				<!-- Contact -->
-					<section id="contact" class="four">
+					<section id="contact" class="four" style="background: url('images/fullsizecosmosfield.jpg') no-repeat center center; background-size: cover;">
 						<div class="container">
 
 							<header>
-								<h2>Contact</h2>
+								<h2 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">Contact</h2>
 							</header>
 
-							<p>Do you have some suggestion or ideas about anything in the General Please leave a message.
+							<h3 id="typewriter" class="typewriter1" style="color: white; font-weight: bold;">Do you have some suggestion or ideas about anything in the General Please leave a message.
 								You can also find me <a href="https://cosmology.unige.ch/users/sayan-saha" >here</a>
-							</p>
+							</h3>
 
 							<form method="post" action="#">
 								<div class="row">
@@ -184,26 +278,177 @@
 						</div>
 					</section>
 
-			</div>
+<!-- Blog1 Modal -->
+<div id="blog1Modal" class="modal">
+    <div class="modal-content" >
+        <span class="close" id="modalCloseBtn">&times;</span>
+        <header class="major">
+            <h2><span style="font-weight:900; font-size:1.2em; color:black">Deciphering the Speed of Light</span></h2>
+        </header>
+		<img src="images/sol.png" alt="Speed of Light" style="width:100%; height:auto;"/>
+		<p style="text-align: center; font-size: smaller; color: #888;">Credit: NASA</p>
+        <h3>The Musing of Greeks</h3>
+        <p>Back in the times of ancient Greece, philosophers like Aristotle pondered a lot about light. To them, light wasn’t something that traveled; it was more of an abstract presence, an illumination that simply existed wherever it was needed.</p>
+        
+        <h3>Galileo’s Attempts</h3>
+        <p>Jump to the 17th century, Galileo and his assistant rolled up their sleeves to chase the speed of light using lanterns. However, light, being the swift entity it is, eluded them due to the technological limitations of their time.</p>
+        
+        <h3>Rømer and the Dance of Jupiter’s Moons</h3>
+        <p>Ole Rømer in 1676 got a breakthrough while observing the moons of Jupiter. He noted the variations in the moon Io’s period and deduced this discrepancy was due to the finite speed of light, coming remarkably close to the modern accepted value.</p>
+        
+        <h3>Bradley and the Wandering Stars</h3>
+        <p>James Bradley, in 1729, by observing stellar aberration, came up with a more accurate estimation of the speed of light, based on the apparent change in position of stars due to Earth’s motion.</p>
+        
+        <h3>Michelson’s Mirror Experiments</h3>
+        <p>Albert A. Michelson, in the late 19th and early 20th centuries, used rotating mirrors to measure the speed of light with unprecedented accuracy. His measurements became the standard for many years.</p>
+        
+        <h3>Modern Measurements</h3>
+        <p>Thanks to advancements in technology and modern physics, we have more precise measurements of the speed of light, pinpointing it at approximately 299,792,458 meters per second.</p>
+        
+        <h3>Einstein’s Theory of Relativity</h3>
+        <p>Albert Einstein solidified the concept that the speed of light is a fundamental constant of nature, implying it’s the ultimate speed limit of the universe.</p>
+        
+        <h3>Conclusion</h3>
+        <p>This journey, from abstract musings to empirical science, represents humanity’s relentless pursuit to understand the universe. We’ve come to know light as not just a presence, but as a traveler, a wave-particle duality navigating through the cosmos at an unfathomable speed.</p>
+    </div>
+</div>
+
+<!-- Blog2 Modal -->
+<div id="blog2Modal" class="modal" style="color: black !important;">
+    <div class="modal-content">
+        <span class="close" id="modalCloseBtn2" style="color: black !important;">&times;</span>
+        <header class="major">
+            <h2><span style="font-weight:900; font-size:1.2em; color: black;">Universe’s Baby Picture!</span></h2>
+        </header>
+		<img src="images/Planck_CMB.jpg" alt="Speed of Light" style="width:100%; height:auto;"/>
+		<p style="text-align: center; font-size: smaller; color: #888;">Credit: ESA, Planck</p>
+        <h3>Hello, Cosmic Wanderers! 🌠</h3>
+        <p>Today, let’s embark on a fun and exciting journey back in time to explore a spectacular phenomenon, the Cosmic Microwave Background, or CMB! Picture it as the Universe's very first baby photo! Cute, right? 🌌📸</p>
+        
+        <h3>Once Upon A Time... 🌌🕰️</h3>
+        <p>Around 13.8 billion years ago (Yep! That’s a B!), our Universe started with a big BANG! It was hot, dense, and way smaller than a pinhead. Everything that is now galaxies, stars, planets, and us, was cramped in there! Can you imagine the lack of personal space?!</p>
+        
+        <h3>Cooling Down & Growing Up 🌬️🌌</h3>
+        <p>As time ticked away, this tiny, fiery baby Universe started to expand and cool down. It was changing and growing, just like when you grow up! And, around 380,000 years after its birth, the Universe finally cooled enough for light to travel freely.</p>
+        
+        <h3>Say Cheese! 📸</h3>
+        <p>That light, still traveling across the vast cosmos, is what we call the Cosmic Microwave Background. It’s like a snapshot of the Universe when it was just a baby! It allows scientists, or Cosmic Detectives, to understand more about the Universe's earliest days.</p>
+        
+        <h3>A Cosmic Whisper 🌌👂</h3>
+        <p>The CMB is like a very faint whisper from the cosmos. It's so quiet that scientists had to build special “cosmic ears,” like the satellites, to listen to it. This whisper is everywhere, and it’s like the Universe is telling us its earliest secrets.</p>
+        
+        <h3>Spotted! 🎇🔍</h3>
+        <p>CMB doesn’t shine like a star or blaze like the sun; instead, it's a soft glow, a gentle radiation. Using their “cosmic ears,” scientists can see tiny spots, or “baby freckles,” on this glow. These “freckles” are clues about how the Universe was feeling and what it was doing when the picture was taken!</p>
+        
+        <h3>Cosmic Detective Work 🕵️🌌</h3>
+        <p>Our cosmic detectives study the CMB’s freckles to learn how our Universe grew up. By studying these patterns, they can understand the types of “cosmic toys” (like atoms and dark matter) the Universe had to play with when it was just a tot!</p>
+        
+        <h3>Cool Colors! 🌈</h3>
+        <p>You might think that the CMB picture is in black and white, but it’s not! The “cosmic baby photo” has cool colors. The colors represent temperatures, with blue being cooler and red being warmer. These colors help scientists figure out how the Universe was behaving and feeling at that time!</p>
+        
+        <h3>Why Should We Care? 🌌💭</h3>
+        <p>Why is this baby photo so important, you ask? Well, by understanding our Universe’s infancy, we can learn about our cosmic home’s history, what it's made of, and possibly where it’s going! It’s like looking at your baby pictures and seeing how much you’ve grown and changed!</p>
+        
+        <h3>Concluding our Cosmic Journey 🌠👋</h3>
+        <p>So, there you go, dear Cosmic Wanderers! We’ve just explored one of the coolest (literally and figuratively!) things in our Universe, the Cosmic Microwave Background. It's like a magical baby photo album, whispering the tales of the infant Universe, allowing us to unravel the mysteries of our cosmic home!</p>
+        
+        <p>Remember, every time you look up at the night sky, the Universe is sharing its wondrous stories with you. So, keep wondering, keep exploring, and who knows, maybe one day, you’ll uncover some cosmic secrets yourself! 🌌🔭🌠</p>
+    </div>
+</div>
+
+
+</div>
 
 		<!-- Footer -->
-			<div id="footer">
+			<div id="footer" style="background: url('images/fullsizecosmosfield.jpg') no-repeat center center; background-size: cover;">
 
 				<!-- Copyright -->
 					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; Sayan Saha. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 					</ul>
 
 			</div>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+			<script>
+				// Get the modal
+				var modal = document.getElementById("blog1Modal");
+				//var modal = document.getElementById("blog2Modal");
+			
+				// Get the button that opens the modal
+				var btn = document.getElementById("modalOpenBtn");
+			
+				// Get the <span> element that closes the modal
+				var span = document.getElementById("modalCloseBtn");
+			
+				// When the user clicks on the button, open the modal
+				btn.onclick = function () {
+					modal.style.display = "block";
+				}
+			
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function () {
+					modal.style.display = "none";
+				}
+			
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function (event) {
+					if (event.target === modal) {
+						modal.style.display = "none";
+					}
+				}
+			</script>
+			<script>
+// Get the new modal
+var modal2 = document.getElementById("blog2Modal");
+
+// Get the button that opens the new modal
+var btn2 = document.getElementById("modalOpenBtn2");
+
+// Get the <span> element that closes the new modal
+var span2 = document.getElementById("modalCloseBtn2");
+
+// When the user clicks on the button, open the new modal
+btn2.onclick = function () {
+    modal2.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the new modal
+span2.onclick = function () {
+    modal2.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the new modal, close it
+window.onclick = function (event) {
+    if (event.target === modal2) {
+        modal2.style.display = "none";
+    }
+}
+			</script>
+			<script>
+				const text = `Hey there, Universe Explorer! I'm Sayan. Welcome to my cosmic corner! Here, we’ll delve into the intriguing worlds of cosmology, breaking down the complexities of the cosmos into fun, easy-to-understand tidbits. Ready for an adventure through the stars?`;
+				
+				let index = 0;
+				const typewriterDiv = document.getElementById('typewriter');
+				
+				function type() {
+					if (index < text.length) {
+						typewriterDiv.textContent += text.charAt(index);
+						index += 1;
+						setTimeout(type, 50);  // You can adjust the typing speed by changing the timeout duration.
+					} else {
+						typewriterDiv.style.animation = 'blink-caret .75s step-end infinite';
+					}
+				}
+		
+				type();
+			</script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>
