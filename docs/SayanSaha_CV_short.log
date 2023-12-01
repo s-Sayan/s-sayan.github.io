@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  25 SEP 2023 14:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  6 NOV 2023 12:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -787,15 +787,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(44.81126pt, 507.88533pt, 44.81128pt)
-* v-part:(T,H,B)=(50.70074pt, 718.29497pt, 76.05113pt)
+* h-part:(L,W,R)=(32.86311pt, 531.78163pt, 32.86313pt)
+* v-part:(T,H,B)=(37.18225pt, 752.09117pt, 55.77342pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=507.88533pt
-* \textheight=718.29497pt
-* \oddsidemargin=-27.45872pt
-* \evensidemargin=-27.45872pt
-* \topmargin=-58.56924pt
+* \textwidth=531.78163pt
+* \textheight=752.09117pt
+* \oddsidemargin=-39.40688pt
+* \evensidemargin=-39.40688pt
+* \topmargin=-72.08774pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -882,16 +882,16 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 9.12pt have occurred.
 
 Package rerunfilecheck Info: File `SayanSaha_CV_short.out' has not changed.
-(rerunfilecheck)             Checksum: 9082A91C8465DB971490BEA315FC5215;1629.
+(rerunfilecheck)             Checksum: 145AFA8691565C391E9EEBDFA1C24CDE;1734.
  ) 
 Here is how much of TeX's memory you used:
- 25970 strings out of 476025
- 502579 string characters out of 5790017
- 1894388 words of memory out of 5000000
- 45876 multiletter control sequences out of 15000+600000
- 524119 words of font info for 116 fonts, out of 8000000 for 9000
+ 25944 strings out of 476025
+ 502329 string characters out of 5790017
+ 1895388 words of memory out of 5000000
+ 45877 multiletter control sequences out of 15000+600000
+ 523161 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 129i,13n,122p,1015b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 129i,12n,122p,1015b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
 me5Brands-Regular.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/fo
 ntawesome5/FontAwesome5Free-Regular.pfb></usr/local/texlive/2023/texmf-dist/fon
@@ -903,10 +903,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
-Output written on SayanSaha_CV_short.pdf (2 pages, 151627 bytes).
+Output written on SayanSaha_CV_short.pdf (2 pages, 152836 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 120 compressed objects within 2 object streams
- 14 named destinations out of 1000 (max. 500000)
- 32869 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 155 PDF objects out of 1000 (max. 8388607)
+ 127 compressed objects within 2 object streams
+ 15 named destinations out of 1000 (max. 500000)
+ 32877 words of extra memory for PDF output out of 35830 (max. 10000000)
 
