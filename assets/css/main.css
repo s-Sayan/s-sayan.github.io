@@ -3823,40 +3823,4 @@ input, select, textarea {
 			width: 200px;
 			height: 200px;
 		}
-	#contact {
-			background-color: #f9f9f9;
-			padding: 20px;
-			font-family: Arial, sans-serif;
-		}
-		
-		.major h2 {
-			color: #333;
-			font-size: 24px;
-			margin-bottom: 15px;
-		}
-		
-		.contact-details {
-			font-size: 16px;
-			color: #555;
-		}
-		
-		.contact-details p {
-			line-height: 1.6;
-			margin-bottom: 15px;
-		}
-		
-		.contact-details i {
-			color: #007bff;
-			margin-right: 8px;
-		}
-		
-		.contact-details a {
-			color: #007bff;
-			text-decoration: none;
-		}
-		
-		.contact-details a:hover {
-			text-decoration: underline;
-		}
-		
-		
+	
