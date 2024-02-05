@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  12 JAN 2024 12:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  5 FEB 2024 15:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -885,11 +885,11 @@ Package rerunfilecheck Info: File `SayanSaha_CV.out' has not changed.
 (rerunfilecheck)             Checksum: E964852BF11830B51A01B153D66DD273;1970.
  ) 
 Here is how much of TeX's memory you used:
- 26005 strings out of 476025
- 502819 string characters out of 5790017
+ 26007 strings out of 476025
+ 502835 string characters out of 5790017
  1891388 words of memory out of 5000000
  45880 multiletter control sequences out of 15000+600000
- 524924 words of font info for 129 fonts, out of 8000000 for 9000
+ 524989 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  129i,12n,122p,1009b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
@@ -903,10 +903,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
-Output written on SayanSaha_CV.pdf (3 pages, 155810 bytes).
+Output written on SayanSaha_CV.pdf (3 pages, 156466 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 148 compressed objects within 2 object streams
+ 178 PDF objects out of 1000 (max. 8388607)
+ 149 compressed objects within 2 object streams
  19 named destinations out of 1000 (max. 500000)
  32901 words of extra memory for PDF output out of 35830 (max. 10000000)
 
