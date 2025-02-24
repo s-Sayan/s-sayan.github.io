@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  16 OCT 2024 19:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  24 FEB 2025 16:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -787,15 +787,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(44.81126pt, 507.88533pt, 44.81128pt)
-* v-part:(T,H,B)=(50.70074pt, 718.29497pt, 76.05113pt)
+* h-part:(L,W,R)=(29.87721pt, 537.75343pt, 29.87723pt)
+* v-part:(T,H,B)=(33.80392pt, 760.53699pt, 50.70593pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=507.88533pt
-* \textheight=718.29497pt
-* \oddsidemargin=-27.45872pt
-* \evensidemargin=-27.45872pt
-* \topmargin=-58.56924pt
+* \textwidth=537.75343pt
+* \textheight=760.53699pt
+* \oddsidemargin=-42.39278pt
+* \evensidemargin=-42.39278pt
+* \topmargin=-75.46606pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -870,20 +870,38 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
 al/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc}{/usr/loca
 l/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5brands0.enc}]
-[2] [3] [4] (./SayanSaha_CV.aux)
+Underfull \hbox (badness 1077) in paragraph at lines 83--83
+[]|\OT1/cmss/m/n/10.95 (+20) Relativistic ef-fects and Novel Ob-serv-ables in C
+os-mol-ogy, Uni-ver-sity of Geneva, Switzer-land,
+ []
+
+
+Underfull \hbox (badness 5288) in paragraph at lines 84--84
+[]|\OT1/cmss/m/n/10.95 (+20) Neighbourhood Cos-mol-ogy Meet-ing, Ra-man Re-sear
+ch In-sti-tute (RRI), Ben-galuru, In-dia.
+ []
+
+[2] [3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free0
+.enc}] [4] (./SayanSaha_CV.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 9.12pt have occurred.
 
-Package rerunfilecheck Info: File `SayanSaha_CV.out' has not changed.
-(rerunfilecheck)             Checksum: D4F0BF74C36FE5B480BC271867122E51;2098.
+
+Package rerunfilecheck Warning: File `SayanSaha_CV.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `SayanSaha_CV.out':
+(rerunfilecheck)             Before: D4F0BF74C36FE5B480BC271867122E51;2098
+(rerunfilecheck)             After:  EB8AFB9A97B92BCAD403F20611423CA9;2108.
  ) 
 Here is how much of TeX's memory you used:
- 25987 strings out of 476025
- 502123 string characters out of 5790017
- 1892388 words of memory out of 5000000
- 45858 multiletter control sequences out of 15000+600000
- 524916 words of font info for 132 fonts, out of 8000000 for 9000
+ 25961 strings out of 476025
+ 501971 string characters out of 5790017
+ 1896388 words of memory out of 5000000
+ 45863 multiletter control sequences out of 15000+600000
+ 524061 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  129i,13n,122p,1009b,470s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
@@ -897,10 +915,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
-Output written on SayanSaha_CV.pdf (4 pages, 154233 bytes).
+Output written on SayanSaha_CV.pdf (4 pages, 155902 bytes).
 PDF statistics:
- 182 PDF objects out of 1000 (max. 8388607)
- 153 compressed objects within 2 object streams
+ 193 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
  21 named destinations out of 1000 (max. 500000)
- 32909 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 34957 words of extra memory for PDF output out of 35830 (max. 10000000)
 

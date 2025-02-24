@@ -2,7 +2,7 @@
 \moderncvstyle{classic}
 \moderncvcolor{blue}
 
-\usepackage[scale=0.85]{geometry}
+\usepackage[scale=0.9]{geometry}
 %Setup hyperref package, and colours for links
 
 % Personal data
@@ -64,6 +64,7 @@
 	\cvitem{2023}{\textbf{Sayan Saha}, Louis Legrand, and Julien Carron, \textbf{Cluster profiles from beyond-the-QE CMB lensing mass maps}, \chref{https://doi.org/10.1088/1475-7516/2024/01/024}{JCAP 01 (2024) 024}, \chref{https://arxiv.org/abs/2307.11711}{arXiv:2307.11711 [astro-ph.CO]},}
 	\cvitem{2021}{\textbf{Sayan Saha}, Shabbir Shaikh, Suvodip Mukherjee, Tarun Souradeep, and Benjamin D. Wandelt, \textbf{Bayesian estimation of our local motion from the Planck-2018 CMB temperature map}, \chref{https://doi.org/10.1088/1475-7516/2021/10/072}{JCAP 10 (2021) 072}, \chref{https://arxiv.org/abs/2106.07666}{arXiv:2106.07666 [astro-ph.CO]}.}	
 	\section{Research Experience}
+	\cvitem{Postdoc Proj.}{Development of shape measurement and convergence reconstruction pipeline for SuperBIT, NASA’s balloon-based telescope, to extract unbiased shear estimates from targeted cluster observations.}
 	\cvitem{PhD Proj. 1}{Studied \textbf{weak gravitational lensing of the CMB by galaxy clusters} in small angular scales. Developing simulations of a CMB flat sky patch lensed by galaxy clusters. Have built a sophisticated \textbf{Maximum-a-Posteriori (MAP)} estimator to estimate cluster mass for CMB S4-like experiments. I am building upon the clusterlens part of python module \chref{https://github.com/carronj/LensIt}{LensIt} by Julien Carron.}
 	\cvitem{PhD Proj. 2}{Studied signatures of \textbf{statistical isotropy violation of the CMB due to the motion of our observation frame}. In a Bayesian approach, we have estimated the velocity of our local motion with a high significance using \textbf{Hamiltonian Monte-Carlo (HMC)} technique.}
 	\cvitem{M.Sc.}{Worked on data analysis of high-energy cosmic ray air-shower data using Machine Learning (ML) and Deep Learning (DL) techniques. Developed a Monte-Carlo pipeline to simulate air-showers for different primaries.}
@@ -71,11 +72,15 @@
 	\section{Experiments \& Collaborations}
 	%\cvitem{CMB-S4}{Working on the forecast of galaxy cluster mass detection and its significance}
 	%\cvitem{Planck}{Studying the violation signatures of isotropy of foreground cleaned CMB maps}
-	\cvitem{Cosmoglobe}{Implementing Hamtonian Monte-Carlo (HMC) in Commander3 and part of the OpenHFI group}
+	\cvitem{SuperBIT}{Leading development of the shape-measurement pipeline}
+	\cvitem{CMB S4}{Member of Cluster-working group}
+	\cvitem{Cosmoglobe}{part of the OpenHFI group}
 	\cvitem{CMB-Bharat}{Web Coordinator (for the proposed CMB telescope from India)}
-	\cvitem{CMB S4}{Provisional member under the supervision of Prof. Julien Carron}
+	
 	
 	\section{Contributed talks \& posters}
+	\cvitem{July 2024}{Relativistic effects and Novel Observables in Cosmology, University of Geneva, Switzerland, \linebreak Talk - \textbf{Novel Bayesian Inferences from the Cosmic
+			Microwave Background},}
 	\cvitem{November 2023}{Neighbourhood Cosmology Meeting, Raman Research Institute (RRI), Bengaluru, India. \linebreak Talk - \textbf{Exploring Cutting-Edge Statistical Methods for Parameter Inference in Present and Future CMB Surveys} [\chref{https://www.youtube.com/watch?v=Eb7QTGZkXVo&t=10747s}{link}],}
 	\cvitem{May-June 2023}{{Third EuCAPT Annual Symposium}, CERN, Geneva, Switzerland. 
 		Talk - \textbf{Extracting Cluster Information from small-scale CMB} [\chref{https://cds.cern.ch/record/2860688}{Link}],}
@@ -89,13 +94,23 @@
 	\cvitem{June 2021}{\textbf{Summer School in Statistics for Astronomers}, Penn State University. - \chref{https://drive.google.com/file/d/1NmV673qvTVJfClCFXjnd62iDvlJKIYD3/view?usp=sharing}{Course Certificate}}
 	\cvitem{March, 2019}{\textbf{Pune-Mumbai Collider Meet},	Indian Institute of Science Education and Research (IISER), Pune-411008, India}
 	
-	\section{Computation Skills}
-	\cvitem{Languages}{Python, Fortran 90, Shell script}
-	\cvitem{Tools}{Git, LaTeX, HTML, HPC computing, MS Office}
-	\cvitem{Codes}{\chref{https://github.com/carronj/LensIt}{LensIt},  \chref{https://github.com/carronj/plancklens}{plancklens}, CAMB, HEALPix (healpy)}
-	\cvitem{Sampling}{MCMC Sampling (Metropolis–Hastings, HMC)}
-	\cvitem{ML/DL Libs}{scikit-learn, tensorflow}
-	\pagebreak
+	\section{Computational Skills}
+	
+	\cvitem{Programming Languages}{Python, Fortran 90, Shell scripting}
+	\cvitem{Open-Source Contributions}{%
+		\begin{itemize}
+			\item \chref{https://github.com/carronj/LensIt}{Lensit} – Maximum-a-posterior (MAP) reconstruction tool of CMB-lensing potential
+			\item \chref{https://github.com/superbit-collaboration/superbit-lensing}{superbit-lensing} – Shear measuremnet pipeline for the SuperBIT telescope
+			\item \chref{https://github.com/GeorgeVassilakis/SMPy}{SMPy} – A Python-based tool to reconstruct convergence maps from shear-measurements.
+			\item \chref{https://github.com/s-Sayan/ShearNet}{ShearNet} – Neural network-based tool for galaxy shape measurement.
+			\item \chref{https://github.com/s-Sayan/CosmoHMC}{CosmoHMC} – Hamiltonian Monte Carlo sampler for field level inference in Cosmology
+		\end{itemize}
+	}
+	\cvitem{Scientific Codes}{ \chref{https://github.com/carronj/plancklens}{plancklens}, CAMB, HEALPix (healpy)}
+	\cvitem{Sampling Methods}{MCMC (Metropolis–Hastings, Hamiltonian Monte Carlo)}
+	\cvitem{Machine Learning}{JAX, PyTorch, scikit-learn, TensorFlow}
+	\cvitem{Software \& Tools}{Git, LaTeX, HTML, HPC computing, Microsoft Office}
+	%\pagebreak
 	\section{Relevant ML \& DL Courses}
 	\cvitem{1}{\textbf{Neural Networks and Deep Learning}, DeepLearning.AI - 	\chref{https://www.coursera.org/account/accomplishments/certificate/K5XUVVRHYG2P}{Course Certificate}}
 	\cvitem{2}{\textbf{Structuring Machine Learning Projects}, DeepLearning.AI - \chref{https://www.coursera.org/account/accomplishments/certificate/Y99M78RNM88M}{Course Certificate}}
@@ -118,9 +133,12 @@
 	\cvitem{IISF 2024}{Participated as a part the RRI representation team at the India International Science Festival (IISF) 2024, engaging with the general public to showcase RRI's work, received the "Best Conceptual Pavilion Award"}		
 	
 	\section{Referees}
-	\cvitem{Supervisor}{Prof Tarun Souradeep, Raman Research Institute, Bengaluru, India,
+	\cvitem{PhD Supervisor}{Prof Tarun Souradeep, Raman Research Institute, Bengaluru, India,
 		Email: \chref{mailto:tarun@rri.res.in}{tarun@rri.res.in}}
+	\cvitem{Postdoc advisor}{Prof Jacqueline McCleary, Northeastern University, Boston, USA
+		Email: \chref{mailto:j.mccleary@northeastern.edu}{j.mccleary@northeastern.edu}}
 	\cvitem{Collaborator}{Prof Julien Carron,  University of Geneva, Switzerland, Email: \chref{mailto:julien.carron@unige.ch}{julien.carron@unige.ch}}
 	\cvitem{Collaborator}{Prof Benjamin D. Wandelt, Institut d'Astrophysique de Paris, France, Email: \chref{mailto:bwandelt@iap.fr}{bwandelt@iap.fr}}
-	%	\cvitem{Collaborator}{Prof Suvodip Mukherjee, Assistant Professor at the Tata Institute of Fundamental Research, Mumbai, India Email: \chref{mailto:suvodip@tifr.res.in}{suvodip@tifr.res.in}}
+	\cvitem{Collaborator}{Prof Suvodip Mukherjee, Assistant Professor at the Tata Institute of Fundamental Research, Mumbai, India Email: \chref{mailto:suvodip@tifr.res.in}{suvodip@tifr.res.in}}
 \end{document}
+
