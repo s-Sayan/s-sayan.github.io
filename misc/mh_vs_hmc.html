@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MCMC Sampling Visualization</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(145deg, #07071a 0%, #0c1225 40%, #10082a 100%);
+    padding: 28px 20px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+  h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px; font-weight: 700; color: #e2e8f0;
+    letter-spacing: -0.5px; text-align: center; margin: 0;
+  }
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: #64748b; text-align: center;
+    margin: 6px 0 0; letter-spacing: 0.5px;
+  }
+  .panels { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 28px; }
+  .panel {
+    flex: 1; min-width: 300;
+    background: rgba(15,15,25,0.6);
+    border-radius: 16px; padding: 20px;
+    display: flex; flex-direction: column; gap: 12px;
+    backdrop-filter: blur(10px);
+  }
+  .panel-mh { border: 1px solid rgba(245,158,11,0.15); }
+  .panel-hmc { border: 1px solid rgba(6,182,212,0.15); }
+  .panel-title {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', 'DM Mono', monospace;
+    font-size: 13px; font-weight: 700; color: #e2e8f0;
+    letter-spacing: 1.2px; text-transform: uppercase;
+  }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .dot-mh { background: #f59e0b; box-shadow: 0 0 8px #f59e0b88; }
+  .dot-hmc { background: #06b6d4; box-shadow: 0 0 8px #06b6d488; }
+  canvas {
+    width: 100%; max-width: 380px; height: auto;
+    border-radius: 10px;
+    background: rgba(8,8,20,0.8);
+    border: 1px solid rgba(100,100,140,0.15);
+  }
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    padding: 6px 14px; border-radius: 8px;
+    background: transparent; color: #e2e8f0;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; cursor: pointer;
+    font-weight: 600; transition: all 0.2s;
+  }
+  .btn-mh { border: 1px solid #f59e0b55; background: #f59e0b18; }
+  .btn-hmc { border: 1px solid #06b6d455; background: #06b6d418; }
+  .btn-gray { border: 1px solid #64748b55; background: #64748b18; }
+  .btn:hover { filter: brightness(1.3); }
+  .speed-wrap {
+    margin-left: auto; display: flex; align-items: center; gap: 6px;
+    font-size: 10px; color: #94a3b8; font-family: monospace;
+  }
+  .speed-wrap input { width: 70px; }
+  input[type="range"].accent-mh { accent-color: #f59e0b; }
+  input[type="range"].accent-hmc { accent-color: #06b6d4; }
+  .stats {
+    display: flex; gap: 16px; padding: 8px 12px;
+    background: rgba(0,0,0,0.3); border-radius: 8px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: #94a3b8;
+  }
+  .stats span { color: #e2e8f0; }
+  .legend-bar {
+    margin-top: 20px; padding: 14px 18px;
+    background: rgba(15,15,25,0.5); border-radius: 12px;
+    border: 1px solid rgba(100,100,140,0.1);
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace; font-size: 10px; color: #94a3b8;
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>MCMC Sampling</h1>
+  <p class="subtitle">Target: 2D Gaussian · μ=(0,0) · σ=(1.5, 1.0) · ρ=0.6</p>
+
+  <div class="panels">
+    <!-- MH Panel -->
+    <div class="panel panel-mh">
+      <div class="panel-title"><div class="dot dot-mh"></div>Metropolis-Hastings</div>
+      <canvas id="canvas-mh" width="380" height="340"></canvas>
+      <div class="controls">
+        <button class="btn btn-mh" id="run-mh">▶ Run</button>
+        <button class="btn btn-gray" id="step-mh">⏭ Step</button>
+        <button class="btn btn-gray" id="reset-mh">↺ Reset</button>
+        <div class="speed-wrap">
+          SPEED <input type="range" min="30" max="400" value="250" class="accent-mh" id="speed-mh" />
+        </div>
+      </div>
+      <div class="stats">
+        <div>Samples: <span id="total-mh">0</span></div>
+        <div>Accept: <span id="rate-mh">—</span></div>
+      </div>
+    </div>
+
+    <!-- HMC Panel -->
+    <div class="panel panel-hmc">
+      <div class="panel-title"><div class="dot dot-hmc"></div>Hamiltonian MC</div>
+      <canvas id="canvas-hmc" width="380" height="340"></canvas>
+      <div class="controls">
+        <button class="btn btn-hmc" id="run-hmc">▶ Run</button>
+        <button class="btn btn-gray" id="step-hmc">⏭ Step</button>
+        <button class="btn btn-gray" id="reset-hmc">↺ Reset</button>
+        <div class="speed-wrap">
+          SPEED <input type="range" min="30" max="400" value="250" class="accent-hmc" id="speed-hmc" />
+        </div>
+      </div>
+      <div class="stats">
+        <div>Samples: <span id="total-hmc">0</span></div>
+        <div>Accept: <span id="rate-hmc">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b66"></div>MH: proposes random nearby point — accepts/rejects via likelihood ratio</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#06b6d4;box-shadow:0 0 6px #06b6d466"></div>HMC: follows gradient trajectory — explores efficiently with fewer rejections</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef444466"></div>Red trail = rejected proposal</div>
+  </div>
+</div>
+
+<script>
+// ---- Math ----
+const MX=0,MY=0,SX=1.5,SY=1.0,RHO=0.6;
+const W=380,H=340,RANGE=5;
+const toX=v=>((v+RANGE)/(2*RANGE))*W;
+const toY=v=>((RANGE-v)/(2*RANGE))*H;
+
+function gaussian2D(x,y){
+  const z=((x-MX)**2)/SX**2-(2*RHO*(x-MX)*(y-MY))/(SX*SY)+((y-MY)**2)/SY**2;
+  return Math.exp(-z/(2*(1-RHO**2)))/(2*Math.PI*SX*SY*Math.sqrt(1-RHO**2));
+}
+function logP(x,y){
+  const z=((x-MX)**2)/SX**2-(2*RHO*(x-MX)*(y-MY))/(SX*SY)+((y-MY)**2)/SY**2;
+  return -z/(2*(1-RHO**2));
+}
+function gradLogP(x,y){
+  const d=1-RHO**2;
+  return [
+    -((x-MX)/SX**2-(RHO*(y-MY))/(SX*SY))/d,
+    -((y-MY)/SY**2-(RHO*(x-MX))/(SX*SY))/d
+  ];
+}
+function randn(){
+  let u=0,v=0;
+  while(!u)u=Math.random();
+  while(!v)v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+
+// ---- Samplers ----
+function mhStep(x,y){
+  const ss=0.8;
+  const xp=x+randn()*ss, yp=y+randn()*ss;
+  const a=logP(xp,yp)-logP(x,y);
+  const ok=Math.log(Math.random())<a;
+  return{xp,yp,accepted:ok,trail:[{x,y},{x:xp,y:yp}]};
+}
+function hmcStep(x,y){
+  const ss=0.15,nL=20;
+  let px=randn(),py=randn();
+  const trail=[{x,y}];
+  let cx=x,cy=y,cpx=px,cpy=py;
+  let[gx,gy]=gradLogP(cx,cy);
+  cpx+=0.5*ss*gx; cpy+=0.5*ss*gy;
+  for(let i=0;i<nL;i++){
+    cx+=ss*cpx; cy+=ss*cpy;
+    trail.push({x:cx,y:cy});
+    [gx,gy]=gradLogP(cx,cy);
+    if(i<nL-1){cpx+=ss*gx;cpy+=ss*gy;}
+    else{cpx+=0.5*ss*gx;cpy+=0.5*ss*gy;}
+  }
+  const H0=-logP(x,y)+0.5*(px**2+py**2);
+  const H1=-logP(cx,cy)+0.5*(cpx**2+cpy**2);
+  const ok=Math.log(Math.random())<H0-H1;
+  return{xp:cx,yp:cy,accepted:ok,trail};
+}
+
+// ---- Drawing ----
+function makeContourCache(){
+  const c=document.createElement('canvas');
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  const levels=[0.005,0.015,0.035,0.065,0.1,0.14];
+  const img=ctx.createImageData(W,H);
+  for(let i=0;i<W;i++)for(let j=0;j<H;j++){
+    const x=(i/W)*2*RANGE-RANGE, y=RANGE-(j/H)*2*RANGE;
+    const p=gaussian2D(x,y);
+    let lvl=0;
+    for(let l=0;l<levels.length;l++)if(p>levels[l])lvl=l+1;
+    const idx=(j*W+i)*4;
+    img.data[idx]=99;img.data[idx+1]=102;img.data[idx+2]=241;img.data[idx+3]=lvl*18;
+  }
+  ctx.putImageData(img,0,0);
+
+  levels.forEach((level,li)=>{
+    ctx.strokeStyle=`rgba(99,102,241,${0.15+li*0.1})`;
+    ctx.lineWidth=0.7;
+    const r=Math.sqrt(-2*(1-RHO**2)*Math.log(level*2*Math.PI*SX*SY*Math.sqrt(1-RHO**2)));
+    if(isNaN(r)||r<=0)return;
+    const theta=0.5*Math.atan2(2*RHO*SX*SY,SX**2-SY**2);
+    const pts=[];
+    for(let t=0;t<=100;t++){
+      const a=(t/100)*2*Math.PI;
+      const rx=r*SX*Math.cos(a),ry=r*SY*Math.sin(a);
+      pts.push([toX(MX+rx*Math.cos(theta)-ry*Math.sin(theta)),toY(MY+rx*Math.sin(theta)+ry*Math.cos(theta))]);
+    }
+    if(pts.length>2){ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);pts.forEach(([px,py])=>ctx.lineTo(px,py));ctx.closePath();ctx.stroke();}
+  });
+
+  // axes
+  ctx.strokeStyle="rgba(150,150,170,0.25)";ctx.lineWidth=0.5;
+  ctx.beginPath();ctx.moveTo(toX(0),0);ctx.lineTo(toX(0),H);ctx.moveTo(0,toY(0));ctx.lineTo(W,toY(0));ctx.stroke();
+  ctx.fillStyle="rgba(150,150,170,0.5)";ctx.font="10px 'DM Mono',monospace";
+  for(let v=-4;v<=4;v+=2){if(!v)continue;ctx.fillText(v,toX(v)-4,toY(0)+14);ctx.fillText(v,toX(0)+6,toY(v)+3);}
+  return c;
+}
+
+const contourCache=makeContourCache();
+
+// ---- Panel logic ----
+function createPanel(id,color,samplerFn){
+  const canvas=document.getElementById('canvas-'+id);
+  const ctx=canvas.getContext('2d');
+  const state={samples:[],cx:3,cy:-3,accepted:0,total:0,trail:null,trailOk:null,animFrame:0};
+  let running=false,speed=150,interval=null,animInterval=null;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.drawImage(contourCache,0,0);
+    state.samples.forEach((pt,i)=>{
+      const age=i/Math.max(state.samples.length,1);
+      ctx.beginPath();ctx.arc(toX(pt.x),toY(pt.y),2.5,0,Math.PI*2);
+      ctx.fillStyle=color+Math.floor(30+age*50).toString(16).padStart(2,'0');
+      ctx.fill();
+    });
+    if(state.trail&&state.trail.length>1){
+      const tc=state.trailOk?color:'#ef4444';
+      ctx.beginPath();ctx.moveTo(toX(state.trail[0].x),toY(state.trail[0].y));
+      const drawn=Math.min(state.animFrame,state.trail.length);
+      for(let i=1;i<drawn;i++)ctx.lineTo(toX(state.trail[i].x),toY(state.trail[i].y));
+      ctx.strokeStyle=tc+'aa';ctx.lineWidth=1.8;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
+      if(drawn>=state.trail.length){
+        const last=state.trail[state.trail.length-1];
+        ctx.beginPath();ctx.arc(toX(last.x),toY(last.y),5,0,Math.PI*2);
+        ctx.strokeStyle=tc;ctx.lineWidth=2;ctx.stroke();
+        if(state.trailOk){ctx.fillStyle=tc+'55';ctx.fill();}
+      }
+    }
+    ctx.beginPath();ctx.arc(toX(state.cx),toY(state.cy),5,0,Math.PI*2);
+    ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+  }
+
+  function updateStats(){
+    document.getElementById('total-'+id).textContent=state.total;
+    const r=state.total>0?((state.accepted/state.total)*100).toFixed(1):'—';
+    const el=document.getElementById('rate-'+id);
+    el.textContent=r+'%';
+    el.style.color=r>50?'#4ade80':r>20?'#fbbf24':'#ef4444';
+  }
+
+  function step(){
+    if(animInterval)return;
+    const res=samplerFn(state.cx,state.cy);
+    state.trail=res.trail;state.trailOk=res.accepted;state.animFrame=0;
+    state.total++;if(res.accepted)state.accepted++;
+    let frame=0;
+    animInterval=setInterval(()=>{
+      frame++;state.animFrame=frame;draw();
+      if(frame>=res.trail.length+5){
+        clearInterval(animInterval);animInterval=null;
+        if(res.accepted){state.cx=res.xp;state.cy=res.yp;}
+        state.samples.push({x:state.cx,y:state.cy});
+        if(state.samples.length>600)state.samples.shift();
+        state.trail=null;state.trailOk=null;
+        updateStats();draw();
+      }
+    },18);
+  }
+
+  function startStop(){
+    running=!running;
+    document.getElementById('run-'+id).textContent=running?'⏸ Pause':'▶ Run';
+    if(running){interval=setInterval(step,speed);}
+    else{clearInterval(interval);}
+  }
+
+  function reset(){
+    running=false;clearInterval(interval);clearInterval(animInterval);animInterval=null;
+    document.getElementById('run-'+id).textContent='▶ Run';
+    state.samples=[];state.cx=3;state.cy=-3;state.accepted=0;state.total=0;state.trail=null;
+    updateStats();draw();
+  }
+
+  document.getElementById('run-'+id).onclick=startStop;
+  document.getElementById('step-'+id).onclick=()=>{if(!running)step();};
+  document.getElementById('reset-'+id).onclick=reset;
+  document.getElementById('speed-'+id).oninput=function(){
+    speed=400-Number(this.value);
+    if(running){clearInterval(interval);interval=setInterval(step,speed);}
+  };
+
+  draw();
+}
+
+// ---- Init ----
+createPanel('mh','#f59e0b',mhStep);
+createPanel('hmc','#06b6d4',hmcStep);
+</script>
+</body>
+</html>
