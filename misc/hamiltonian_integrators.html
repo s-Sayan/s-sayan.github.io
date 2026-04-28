@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hamiltonian Integrators — Discretisation Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080b12;
+    --panel: rgba(12,16,28,0.85);
+    --border: rgba(80,90,130,0.18);
+    --euler: #ef4444;
+    --symp: #f59e0b;
+    --leap: #22d3ee;
+    --exact: #4ade80;
+    --grid: rgba(60,70,100,0.18);
+    --text: #c8d0e0;
+    --dim: #5a6480;
+    --accent: #818cf8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .page { max-width: 1080px; margin: 0 auto; padding: 24px 18px 40px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 22px; }
+  .header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px; font-weight: 600; letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .header p { font-size: 12px; color: var(--dim); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+
+  /* Controls */
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 20px; margin-bottom: 16px;
+  }
+  .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
+  .ctrl-group label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--dim);
+  }
+  .ctrl-group .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: #fff; font-weight: 500;
+  }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 130px; height: 4px; border-radius: 2px;
+    background: rgba(100,110,150,0.3); outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--accent); cursor: pointer;
+    border: 2px solid #fff;
+  }
+  .pill-group { display: flex; gap: 0; }
+  .pill {
+    padding: 6px 14px; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; cursor: pointer;
+    background: rgba(50,55,80,0.4); color: var(--dim);
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .pill:first-child { border-radius: 8px 0 0 8px; }
+  .pill:last-child { border-radius: 0 8px 8px 0; }
+  .pill.active { background: rgba(129,140,248,0.2); color: #fff; border-color: var(--accent); }
+  .btn {
+    padding: 7px 18px; border-radius: 8px; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--accent); background: rgba(129,140,248,0.15);
+    color: #fff; transition: all 0.2s; margin-left: auto;
+  }
+  .btn:hover { background: rgba(129,140,248,0.3); }
+  .btn-sm { padding: 7px 14px; margin-left: 0; }
+
+  /* Plots row */
+  .plots {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 740px) { .plots { grid-template-columns: 1fr; } }
+  .plot-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .plot-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--dim);
+  }
+  canvas {
+    width: 100%; border-radius: 8px;
+    background: rgba(4,6,14,0.9);
+    border: 1px solid rgba(60,70,100,0.12);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 20px;
+  }
+  .leg-item { display: flex; align-items: start; gap: 8px; max-width: 260px; }
+  .leg-dot { width: 10px; height: 3px; border-radius: 2px; margin-top: 6px; flex-shrink: 0; }
+  .leg-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dim); line-height: 1.5; }
+  .leg-label b { color: var(--text); font-weight: 600; }
+
+  /* Toggles */
+  .toggle-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .toggle {
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  }
+  .toggle input { display: none; }
+  .toggle .box {
+    width: 14px; height: 14px; border-radius: 4px;
+    border: 2px solid var(--dim); transition: all 0.2s;
+  }
+  .toggle input:checked + .box { border-color: currentColor; background: currentColor; }
+
+  /* Info cards */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .info-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .info-card h3 {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .info-card p { font-size: 12px; color: var(--dim); line-height: 1.55; }
+  .info-card code {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    background: rgba(80,90,130,0.2); padding: 1px 5px; border-radius: 3px;
+    color: var(--text);
+  }
+  .eq-box {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 22px; margin-bottom: 16px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+    justify-content: center;
+  }
+  .eq-block {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px; color: #e2e8f0; line-height: 1.7;
+  }
+  .eq-block .eq-label {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--dim); display: block; margin-bottom: 2px;
+  }
+  .eq-block .eq-highlight { color: var(--accent); }
+  .eq-block .eq-green { color: var(--exact); }
+
+  .stability-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+  .stable { background: rgba(34,211,238,0.15); color: #22d3ee; }
+  .unstable { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .bounded { background: rgba(245,158,11,0.15); color: #f59e0b; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <h1>Hamiltonian Integrator Explorer</h1>
+    <p>Discretisation schemes, step-size stability & energy conservation</p>
+  </div>
+
+  <!-- Equation display -->
+  <div class="eq-box" id="eq-box">
+    <div class="eq-block">
+      <span class="eq-label">Hamiltonian</span>
+      <span id="eq-hamiltonian">H(q, p) = <span class="eq-highlight">p²/2</span> + <span class="eq-highlight">q²/2</span></span>
+    </div>
+    <div class="eq-block">
+      <span class="eq-label">Equations of Motion</span>
+      <span id="eq-motion">dq/dt = p   ,   dp/dt = <span class="eq-highlight">−q</span></span>
+    </div>
+    <div class="eq-block">
+      <span class="eq-label">Initial Energy</span>
+      <span class="eq-green" id="eq-energy">H₀ = 2.000</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="ctrl-group">
+      <label>Potential U(q)</label>
+      <div class="pill-group" id="pot-pills">
+        <div class="pill active" data-val="harmonic">Harmonic q²/2</div>
+        <div class="pill" data-val="doublewell">Double-well</div>
+        <div class="pill" data-val="quartic">Quartic q⁴/4</div>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Energy H₀</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="range" id="energy-slider" min="5" max="400" value="200" />
+        <span class="value" id="energy-val">2.00</span>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Step size ε</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="range" id="eps-slider" min="1" max="80" value="20" />
+        <span class="value" id="eps-val">0.20</span>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Leapfrog steps L</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="range" id="L-slider" min="5" max="200" value="60" />
+        <span class="value" id="L-val">60</span>
+      </div>
+    </div>
+
+    <button class="btn btn-sm" id="btn-run">▶ Integrate</button>
+    <button class="btn btn-sm" id="btn-animate">⟳ Loop</button>
+    <button class="btn btn-sm" id="btn-stop" style="display:none">■ Stop</button>
+
+    <div class="ctrl-group">
+      <label>Anim Speed</label>
+      <div class="pill-group" id="speed-pills">
+        <div class="pill" data-val="0.25">0.25×</div>
+        <div class="pill" data-val="0.5">0.5×</div>
+        <div class="pill active" data-val="1">1×</div>
+        <div class="pill" data-val="2">2×</div>
+        <div class="pill" data-val="4">4×</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggles -->
+  <div class="toggle-row">
+    <label class="toggle" style="color:var(--exact)"><input type="checkbox" id="tog-exact" checked /><span class="box"></span>Exact</label>
+    <label class="toggle" style="color:var(--euler)"><input type="checkbox" id="tog-euler" checked /><span class="box"></span>Euler</label>
+    <label class="toggle" style="color:var(--symp)"><input type="checkbox" id="tog-symp" checked /><span class="box"></span>Symplectic Euler</label>
+    <label class="toggle" style="color:var(--leap)"><input type="checkbox" id="tog-leap" checked /><span class="box"></span>Leapfrog</label>
+  </div>
+
+  <!-- Plots -->
+  <div class="plots" style="margin-top: 14px;">
+    <div class="plot-card">
+      <div class="plot-title">Phase Space (q, p)</div>
+      <canvas id="cv-phase" width="500" height="500"></canvas>
+    </div>
+    <div class="plot-card">
+      <div class="plot-title">Energy H(q,p) over integration steps</div>
+      <canvas id="cv-energy" width="500" height="500"></canvas>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="leg-item">
+      <div class="leg-dot" style="background:var(--exact)"></div>
+      <div class="leg-label"><b>Exact solution</b> — true Hamiltonian flow, energy perfectly conserved</div>
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:var(--euler)"></div>
+      <div class="leg-label"><b>Explicit Euler</b> — 1st order, non-symplectic, energy spirals outward</div>
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:var(--symp)"></div>
+      <div class="leg-label"><b>Symplectic Euler</b> — 1st order, symplectic, energy oscillates but bounded</div>
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:var(--leap)"></div>
+      <div class="leg-label"><b>Leapfrog</b> — 2nd order, symplectic, excellent energy conservation (used in HMC)</div>
+    </div>
+  </div>
+
+  <!-- Info cards -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h3 style="color:var(--euler)">Explicit Euler</h3>
+      <p>
+        <code>q ← q + ε·p</code><br/>
+        <code>p ← p − ε·∇U(q)</code><br/><br/>
+        Both updates use the <em>old</em> values. This breaks the symplectic structure — the numerical flow does not preserve phase-space volume. Energy drifts monotonically, making trajectories spiral outward.
+      </p>
+      <div class="stability-badge unstable">Non-symplectic · Energy diverges</div>
+    </div>
+    <div class="info-card">
+      <h3 style="color:var(--symp)">Symplectic Euler</h3>
+      <p>
+        <code>p ← p − ε·∇U(q)</code><br/>
+        <code>q ← q + ε·p<sub>new</sub></code><br/><br/>
+        Momentum updated first, then position uses the <em>new</em> momentum. This one-sided coupling preserves the symplectic 2-form. Energy oscillates around the true value with amplitude O(ε).
+      </p>
+      <div class="stability-badge bounded">Symplectic · 1st order · O(ε) energy error</div>
+    </div>
+    <div class="info-card">
+      <h3 style="color:var(--leap)">Leapfrog (Störmer-Verlet)</h3>
+      <p>
+        <code>p ← p − (ε/2)·∇U(q)</code><br/>
+        <code>q ← q + ε·p</code><br/>
+        <code>p ← p − (ε/2)·∇U(q<sub>new</sub>)</code><br/><br/>
+        A symmetric, time-reversible composition. 2nd order accuracy means the energy shadow Hamiltonian is O(ε²) close to the true one.  This is the integrator used in HMC.
+      </p>
+      <div class="stability-badge stable">Symplectic · 2nd order · O(ε²) energy error</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ Potentials ============
+const potentials = {
+  harmonic: {
+    U: q => 0.5 * q * q,
+    dU: q => q,
+    label: "q²/2",
+    range: 4.5,
+  },
+  doublewell: {
+    U: q => 0.25 * (q * q - 1) ** 2,
+    dU: q => q * (q * q - 1),
+    label: "(q²−1)²/4",
+    range: 3.0,
+  },
+  quartic: {
+    U: q => 0.25 * q ** 4,
+    dU: q => q ** 3,
+    label: "q⁴/4",
+    range: 3.5,
+  },
+};
+let currentPot = 'harmonic';
+const H = (q, p, pot) => 0.5 * p * p + pot.U(q);
+
+// ============ Integrators ============
+function integrateEuler(q0, p0, eps, L, pot) {
+  const qs = [q0], ps = [p0], es = [H(q0, p0, pot)];
+  let q = q0, p = p0;
+  for (let i = 0; i < L; i++) {
+    const qn = q + eps * p;
+    const pn = p - eps * pot.dU(q);
+    q = qn; p = pn;
+    qs.push(q); ps.push(p); es.push(H(q, p, pot));
+    if (Math.abs(q) > 100 || Math.abs(p) > 100) { break; }
+  }
+  return { qs, ps, es };
+}
+
+function integrateSymplecticEuler(q0, p0, eps, L, pot) {
+  const qs = [q0], ps = [p0], es = [H(q0, p0, pot)];
+  let q = q0, p = p0;
+  for (let i = 0; i < L; i++) {
+    p = p - eps * pot.dU(q);
+    q = q + eps * p;
+    qs.push(q); ps.push(p); es.push(H(q, p, pot));
+    if (Math.abs(q) > 100 || Math.abs(p) > 100) { break; }
+  }
+  return { qs, ps, es };
+}
+
+function integrateLeapfrog(q0, p0, eps, L, pot) {
+  const qs = [q0], ps = [p0], es = [H(q0, p0, pot)];
+  let q = q0, p = p0;
+  for (let i = 0; i < L; i++) {
+    p = p - 0.5 * eps * pot.dU(q);
+    q = q + eps * p;
+    p = p - 0.5 * eps * pot.dU(q);
+    qs.push(q); ps.push(p); es.push(H(q, p, pot));
+    if (Math.abs(q) > 100 || Math.abs(p) > 100) { break; }
+  }
+  return { qs, ps, es };
+}
+
+// Exact solution (numerical with tiny steps)
+function integrateExact(q0, p0, totalTime, pot) {
+  const nSteps = 2000;
+  const dt = totalTime / nSteps;
+  const qs = [q0], ps = [p0], es = [H(q0, p0, pot)];
+  let q = q0, p = p0;
+  for (let i = 0; i < nSteps; i++) {
+    p -= 0.5 * dt * pot.dU(q);
+    q += dt * p;
+    p -= 0.5 * dt * pot.dU(q);
+    qs.push(q); ps.push(p); es.push(H(q, p, pot));
+  }
+  return { qs, ps, es };
+}
+
+// ============ Drawing ============
+const cvPhase = document.getElementById('cv-phase');
+const cvEnergy = document.getElementById('cv-energy');
+const ctxP = cvPhase.getContext('2d');
+const ctxE = cvEnergy.getContext('2d');
+
+const DPR = window.devicePixelRatio || 1;
+function setupCanvas(cv) {
+  const rect = cv.getBoundingClientRect();
+  const w = Math.max(rect.width, 400);
+  cv.width = w * DPR;
+  cv.height = w * DPR;
+  cv.style.width = w + 'px';
+  cv.style.height = w + 'px';
+  cv.getContext('2d').scale(DPR, DPR);
+  return w;
+}
+
+let PW, EW;
+function initCanvases() {
+  PW = setupCanvas(cvPhase);
+  EW = setupCanvas(cvEnergy);
+}
+
+function drawGrid(ctx, w, h, xRange, yRange, xLabel, yLabel) {
+  const pad = 40;
+  const pw = w - 2 * pad, ph = h - 2 * pad;
+  const toSX = v => pad + ((v - xRange[0]) / (xRange[1] - xRange[0])) * pw;
+  const toSY = v => pad + ((yRange[1] - v) / (yRange[1] - yRange[0])) * ph;
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(60,70,100,0.15)';
+  ctx.lineWidth = 0.5;
+  const xStep = niceStep(xRange[1] - xRange[0], 8);
+  const yStep = niceStep(yRange[1] - yRange[0], 8);
+  for (let x = Math.ceil(xRange[0] / xStep) * xStep; x <= xRange[1]; x += xStep) {
+    ctx.beginPath(); ctx.moveTo(toSX(x), pad); ctx.lineTo(toSX(x), pad + ph); ctx.stroke();
+  }
+  for (let y = Math.ceil(yRange[0] / yStep) * yStep; y <= yRange[1]; y += yStep) {
+    ctx.beginPath(); ctx.moveTo(pad, toSY(y)); ctx.lineTo(pad + pw, toSY(y)); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = 'rgba(100,110,150,0.35)'; ctx.lineWidth = 1;
+  if (xRange[0] <= 0 && xRange[1] >= 0) {
+    ctx.beginPath(); ctx.moveTo(toSX(0), pad); ctx.lineTo(toSX(0), pad + ph); ctx.stroke();
+  }
+  if (yRange[0] <= 0 && yRange[1] >= 0) {
+    ctx.beginPath(); ctx.moveTo(pad, toSY(0)); ctx.lineTo(pad + pw, toSY(0)); ctx.stroke();
+  }
+
+  // Tick labels
+  ctx.fillStyle = 'rgba(100,115,150,0.6)';
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.textAlign = 'center';
+  for (let x = Math.ceil(xRange[0] / xStep) * xStep; x <= xRange[1]; x += xStep) {
+    if (Math.abs(x) < 1e-9) continue;
+    ctx.fillText(Number(x.toFixed(2)), toSX(x), pad + ph + 16);
+  }
+  ctx.textAlign = 'right';
+  for (let y = Math.ceil(yRange[0] / yStep) * yStep; y <= yRange[1]; y += yStep) {
+    if (Math.abs(y) < 1e-9) continue;
+    ctx.fillText(Number(y.toFixed(2)), pad - 6, toSY(y) + 4);
+  }
+
+  // Labels
+  ctx.fillStyle = 'rgba(130,140,170,0.7)';
+  ctx.font = '11px JetBrains Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(xLabel, pad + pw / 2, pad + ph + 34);
+  ctx.save();
+  ctx.translate(12, pad + ph / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(yLabel, 0, 0);
+  ctx.restore();
+
+  return { toSX, toSY, pad, pw, ph };
+}
+
+function niceStep(range, maxTicks) {
+  const raw = range / maxTicks;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  if (norm <= 1) return mag;
+  if (norm <= 2) return 2 * mag;
+  if (norm <= 5) return 5 * mag;
+  return 10 * mag;
+}
+
+function drawContours(ctx, g, pot, xr, yr) {
+  const { toSX, toSY, pad, pw, ph } = g;
+  const res = 100;
+  for (let i = 0; i <= res; i++) {
+    for (let j = 0; j <= res; j++) {
+      const q = xr[0] + (i / res) * (xr[1] - xr[0]);
+      const p = yr[0] + (j / res) * (yr[1] - yr[0]);
+      const h = H(q, p, pot);
+      const alpha = Math.max(0, Math.min(0.12, 0.04 * Math.exp(-h * 0.3)));
+      if (alpha > 0.005) {
+        const sx = toSX(q), sy = toSY(p);
+        const cw = pw / res, ch = ph / res;
+        ctx.fillStyle = `rgba(129,140,248,${alpha})`;
+        ctx.fillRect(sx - cw / 2, sy - ch / 2, cw + 1, ch + 1);
+      }
+    }
+  }
+
+  // Contour lines
+  const levels = [];
+  const H0 = H(1.5, 0, pot);
+  for (let k = 1; k <= 8; k++) levels.push(k * H0 / 3);
+
+  levels.forEach(level => {
+    ctx.strokeStyle = 'rgba(129,140,248,0.12)';
+    ctx.lineWidth = 0.6;
+    const pts = [];
+    for (let t = 0; t <= 200; t++) {
+      const angle = (t / 200) * 2 * Math.PI;
+      // For harmonic: H = p²/2 + q²/2 = level => parametric circle
+      // General: numerical search along radial direction
+      const dir_q = Math.cos(angle), dir_p = Math.sin(angle);
+      let lo = 0, hi = Math.max(xr[1], yr[1]) * 2;
+      for (let iter = 0; iter < 30; iter++) {
+        const mid = (lo + hi) / 2;
+        const hv = H(mid * dir_q, mid * dir_p, pot);
+        if (hv < level) lo = mid; else hi = mid;
+      }
+      const r = (lo + hi) / 2;
+      const qq = r * dir_q, pp = r * dir_p;
+      if (qq >= xr[0] && qq <= xr[1] && pp >= yr[0] && pp <= yr[1]) {
+        pts.push([toSX(qq), toSY(pp)]);
+      }
+    }
+    if (pts.length > 10) {
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      pts.forEach(([x, y]) => ctx.lineTo(x, y));
+      ctx.closePath();
+      ctx.stroke();
+    }
+  });
+}
+
+function drawTrajectory(ctx, qs, ps, g, color, drawTo) {
+  const { toSX, toSY } = g;
+  const n = drawTo != null ? drawTo : qs.length;
+  if (n < 2) return;
+  ctx.beginPath();
+  ctx.moveTo(toSX(qs[0]), toSY(ps[0]));
+  for (let i = 1; i < n; i++) {
+    if (Math.abs(qs[i]) > 50 || Math.abs(ps[i]) > 50) break;
+    ctx.lineTo(toSX(qs[i]), toSY(ps[i]));
+  }
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+
+  // Start dot
+  ctx.beginPath();
+  ctx.arc(toSX(qs[0]), toSY(ps[0]), 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+
+  // Current dot
+  const ci = Math.min(n - 1, qs.length - 1);
+  if (Math.abs(qs[ci]) < 50 && Math.abs(ps[ci]) < 50) {
+    ctx.beginPath();
+    ctx.arc(toSX(qs[ci]), toSY(ps[ci]), 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
+}
+
+function drawEnergyLine(ctx, es, g, color, totalSteps, drawTo) {
+  const { toSX, toSY } = g;
+  const n = drawTo != null ? Math.min(drawTo, es.length) : es.length;
+  if (n < 2) return;
+  ctx.beginPath();
+  const step = totalSteps / (es.length - 1);
+  ctx.moveTo(toSX(0), toSY(es[0]));
+  for (let i = 1; i < n; i++) {
+    const x = i * step;
+    if (!isFinite(es[i]) || Math.abs(es[i]) > 1e6) break;
+    ctx.lineTo(toSX(x), toSY(es[i]));
+  }
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+}
+
+// ============ State ============
+let energy0 = 2.0;
+let q0 = 0, p0 = 2.0;
+let eps = 0.20, Lsteps = 60;
+let results = {};
+let show = { exact: true, euler: true, symp: true, leap: true };
+let animFrame = null;
+let animStep = 0;
+let animating = false;
+
+const eqData = {
+  harmonic: {
+    hamiltonian: 'H(q, p) = <span class="eq-highlight">p²/2</span> + <span class="eq-highlight">q²/2</span>',
+    motion: 'dq/dt = p   ,   dp/dt = <span class="eq-highlight">−q</span>',
+  },
+  doublewell: {
+    hamiltonian: 'H(q, p) = <span class="eq-highlight">p²/2</span> + <span class="eq-highlight">(q²−1)²/4</span>',
+    motion: 'dq/dt = p   ,   dp/dt = <span class="eq-highlight">−q(q²−1)</span>',
+  },
+  quartic: {
+    hamiltonian: 'H(q, p) = <span class="eq-highlight">p²/2</span> + <span class="eq-highlight">q⁴/4</span>',
+    motion: 'dq/dt = p   ,   dp/dt = <span class="eq-highlight">−q³</span>',
+  },
+};
+
+function updateEquations() {
+  const eq = eqData[currentPot];
+  document.getElementById('eq-hamiltonian').innerHTML = eq.hamiltonian;
+  document.getElementById('eq-motion').innerHTML = eq.motion;
+  document.getElementById('eq-energy').textContent = 'H₀ = ' + energy0.toFixed(3);
+}
+
+function deriveInitialConditions() {
+  const pot = potentials[currentPot];
+  // Start at q0 = 0, derive p0 from energy: E = p0²/2 + U(0)
+  q0 = 0;
+  const U0 = pot.U(q0);
+  const kinetic = energy0 - U0;
+  if (kinetic > 0) {
+    p0 = Math.sqrt(2 * kinetic);
+  } else {
+    // Energy too low — shift q0 so trajectory is valid
+    q0 = 0;
+    p0 = Math.sqrt(2 * Math.max(energy0, 0.01));
+  }
+}
+
+function compute() {
+  deriveInitialConditions();
+  updateEquations();
+  const pot = potentials[currentPot];
+  const totalTime = eps * Lsteps;
+  results.exact = integrateExact(q0, p0, totalTime, pot);
+  results.euler = integrateEuler(q0, p0, eps, Lsteps, pot);
+  results.symp = integrateSymplecticEuler(q0, p0, eps, Lsteps, pot);
+  results.leap = integrateLeapfrog(q0, p0, eps, Lsteps, pot);
+}
+
+function draw(drawTo) {
+  const pot = potentials[currentPot];
+  // Adapt range to energy — p_max = sqrt(2*E), and give some headroom
+  const pMax = Math.sqrt(2 * energy0) * 1.4;
+  const R = Math.max(pot.range, pMax, 2.5);
+
+  // Phase space
+  ctxP.clearRect(0, 0, PW, PW);
+  const xr = [-R, R], yr = [-R, R];
+  const gP = drawGrid(ctxP, PW, PW, xr, yr, 'q (position)', 'p (momentum)');
+  drawContours(ctxP, gP, pot, xr, yr);
+
+  // Exact: use all points, others: use drawTo
+  if (show.exact && results.exact) {
+    const eDraw = drawTo != null ? Math.floor((drawTo / Lsteps) * results.exact.qs.length) : null;
+    drawTrajectory(ctxP, results.exact.qs, results.exact.ps, gP, '#4ade80aa', eDraw);
+  }
+  if (show.euler && results.euler) drawTrajectory(ctxP, results.euler.qs, results.euler.ps, gP, '#ef4444cc', drawTo);
+  if (show.symp && results.symp) drawTrajectory(ctxP, results.symp.qs, results.symp.ps, gP, '#f59e0bcc', drawTo);
+  if (show.leap && results.leap) drawTrajectory(ctxP, results.leap.qs, results.leap.ps, gP, '#22d3eecc', drawTo);
+
+  // Energy plot
+  ctxE.clearRect(0, 0, EW, EW);
+  const H0 = H(q0, p0, pot);
+  // Find energy range
+  let eMin = H0, eMax = H0;
+  ['euler', 'symp', 'leap'].forEach(k => {
+    if (show[k] && results[k]) {
+      const n = drawTo != null ? Math.min(drawTo + 1, results[k].es.length) : results[k].es.length;
+      for (let i = 0; i < n; i++) {
+        if (isFinite(results[k].es[i]) && Math.abs(results[k].es[i]) < 1e6) {
+          eMin = Math.min(eMin, results[k].es[i]);
+          eMax = Math.max(eMax, results[k].es[i]);
+        }
+      }
+    }
+  });
+  const ePad = Math.max((eMax - eMin) * 0.15, 0.05);
+  const eRange = [eMin - ePad, eMax + ePad];
+
+  const gE = drawGrid(ctxE, EW, EW, [0, Lsteps], eRange, 'Integration step', 'H(q,p)');
+
+  // Exact energy (flat line)
+  if (show.exact) {
+    ctxE.setLineDash([4, 4]);
+    ctxE.beginPath();
+    ctxE.moveTo(gE.toSX(0), gE.toSY(H0));
+    ctxE.lineTo(gE.toSX(Lsteps), gE.toSY(H0));
+    ctxE.strokeStyle = '#4ade8088';
+    ctxE.lineWidth = 1.5;
+    ctxE.stroke();
+    ctxE.setLineDash([]);
+
+    // Label
+    ctxE.fillStyle = '#4ade8099';
+    ctxE.font = '10px JetBrains Mono, monospace';
+    ctxE.textAlign = 'left';
+    ctxE.fillText('H₀ = ' + H0.toFixed(3), gE.toSX(Lsteps * 0.02), gE.toSY(H0) - 8);
+  }
+
+  if (show.euler && results.euler) drawEnergyLine(ctxE, results.euler.es, gE, '#ef4444cc', Lsteps, drawTo);
+  if (show.symp && results.symp) drawEnergyLine(ctxE, results.symp.es, gE, '#f59e0bcc', Lsteps, drawTo);
+  if (show.leap && results.leap) drawEnergyLine(ctxE, results.leap.es, gE, '#22d3eecc', Lsteps, drawTo);
+}
+
+function runAll() {
+  stopAnimation();
+  compute();
+  draw();
+}
+
+// ============ Animation ============
+let animSpeed = 1;
+let animDelayBase = 80; // ms per step at 1x — much slower default
+
+function stopAnimation() {
+  animating = false;
+  if (animFrame) cancelAnimationFrame(animFrame);
+  if (animTimeout) clearTimeout(animTimeout);
+  animFrame = null;
+  animTimeout = null;
+  document.getElementById('btn-animate').style.display = '';
+  document.getElementById('btn-stop').style.display = 'none';
+}
+
+let animTimeout = null;
+
+function animate() {
+  stopAnimation();
+  compute();
+  animating = true;
+  animStep = 2;
+  const maxSteps = Lsteps + 1;
+
+  document.getElementById('btn-animate').style.display = 'none';
+  document.getElementById('btn-stop').style.display = '';
+
+  function tick() {
+    if (!animating) return;
+    draw(animStep);
+    animStep += 1;
+    if (animStep <= maxSteps) {
+      const delay = animDelayBase / animSpeed;
+      animTimeout = setTimeout(() => {
+        animFrame = requestAnimationFrame(tick);
+      }, delay);
+    } else {
+      // Loop: pause briefly at end, then restart
+      animTimeout = setTimeout(() => {
+        if (!animating) return;
+        animStep = 2;
+        animFrame = requestAnimationFrame(tick);
+      }, 800 / animSpeed);
+    }
+  }
+  animFrame = requestAnimationFrame(tick);
+}
+
+// ============ UI wiring ============
+document.getElementById('eps-slider').oninput = function () {
+  eps = this.value / 100;
+  document.getElementById('eps-val').textContent = eps.toFixed(2);
+};
+document.getElementById('L-slider').oninput = function () {
+  Lsteps = parseInt(this.value);
+  document.getElementById('L-val').textContent = Lsteps;
+};
+document.getElementById('energy-slider').oninput = function () {
+  energy0 = this.value / 100;
+  document.getElementById('energy-val').textContent = energy0.toFixed(2);
+  document.getElementById('eq-energy').textContent = 'H₀ = ' + energy0.toFixed(3);
+};
+
+document.querySelectorAll('#pot-pills .pill').forEach(pill => {
+  pill.onclick = function () {
+    document.querySelectorAll('#pot-pills .pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    currentPot = this.dataset.val;
+    updateEquations();
+  };
+});
+
+['exact', 'euler', 'symp', 'leap'].forEach(k => {
+  document.getElementById('tog-' + k).onchange = function () {
+    show[k] = this.checked;
+    if (!animating) { compute(); draw(); }
+  };
+});
+
+document.getElementById('btn-run').onclick = runAll;
+document.getElementById('btn-animate').onclick = animate;
+document.getElementById('btn-stop').onclick = stopAnimation;
+
+document.querySelectorAll('#speed-pills .pill').forEach(pill => {
+  pill.onclick = function () {
+    document.querySelectorAll('#speed-pills .pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    animSpeed = parseFloat(this.dataset.val);
+  };
+});
+
+// Resize
+window.addEventListener('resize', () => { initCanvases(); if (!animating) runAll(); });
+
+// Init
+initCanvases();
+runAll();
+</script>
+</body>
+</html>
