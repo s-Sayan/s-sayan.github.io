@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  1 MAY 2026 13:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.19)  6 MAY 2026 18:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -887,7 +887,7 @@ Package rerunfilecheck Info: File `SayanSaha_CV.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  25996 strings out of 476025
- 502309 string characters out of 5790017
+ 502307 string characters out of 5790017
  1889388 words of memory out of 5000000
  45875 multiletter control sequences out of 15000+600000
  525894 words of font info for 128 fonts, out of 8000000 for 9000
@@ -906,7 +906,7 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmssi17.pfb></usr/local/texlive/2023/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on SayanSaha_CV.pdf (4 pages, 173628 bytes).
+Output written on SayanSaha_CV.pdf (4 pages, 174553 bytes).
 PDF statistics:
  216 PDF objects out of 1000 (max. 8388607)
  183 compressed objects within 2 object streams
