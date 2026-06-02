@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plot Digitizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f14;
+    --panel:#121922;
+    --panel-2:#0e151d;
+    --line:#1f2a36;
+    --ink:#e7eef6;
+    --muted:#8aa0b4;
+    --cyan:#2dd4bf;      /* X axis */
+    --amber:#fbbf24;     /* Y axis */
+    --rose:#fb7185;      /* data points */
+    --accent:#5eead4;
+    --danger:#ef4444;
+    --radius:12px;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    --sans:'Sora',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, #14202b 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, #101a22 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    display:grid; grid-template-columns: 1fr 360px;
+    grid-template-rows:auto 1fr; height:100vh;
+  }
+  header{
+    grid-column:1 / -1; display:flex; align-items:center; gap:14px;
+    padding:14px 20px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+  }
+  header .logo{
+    width:34px;height:34px;border-radius:9px;
+    background:conic-gradient(from 200deg,var(--cyan),var(--amber),var(--rose),var(--cyan));
+    box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 6px 20px rgba(45,212,191,.18);
+    position:relative;
+  }
+  header .logo::after{content:"";position:absolute;inset:8px;border-radius:4px;background:var(--bg);}
+  header h1{font-size:17px;font-weight:700;letter-spacing:.2px;margin:0}
+  header .sub{color:var(--muted);font-size:12.5px;font-family:var(--mono)}
+  header .spacer{flex:1}
+  .badge{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);padding:5px 9px;border-radius:999px}
+
+  /* ---- workspace ---- */
+  .stage{position:relative; overflow:hidden; background:
+    repeating-conic-gradient(#0d141b 0% 25%, #0a1016 0% 50%) 50% / 22px 22px;}
+  #canvas{display:block; width:100%; height:100%; cursor:crosshair; touch-action:none;}
+  .empty{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    gap:14px; color:var(--muted); pointer-events:none; text-align:center; padding:24px;
+  }
+  .empty.hide{display:none}
+  .drop{
+    pointer-events:auto; border:1.5px dashed var(--line); border-radius:var(--radius);
+    padding:34px 40px; background:rgba(18,25,34,.6); backdrop-filter:blur(4px);
+    transition:border-color .2s, background .2s;
+  }
+  .drop.hover{border-color:var(--cyan); background:rgba(45,212,191,.06)}
+  .drop strong{color:var(--ink); display:block; font-size:16px; margin-bottom:6px}
+
+  /* live readout + loupe */
+  .readout{
+    position:absolute; left:12px; bottom:12px; font-family:var(--mono); font-size:12px;
+    background:rgba(8,12,17,.82); border:1px solid var(--line); border-radius:10px;
+    padding:8px 11px; color:var(--ink); pointer-events:none; line-height:1.5; min-width:148px;
+  }
+  .readout .k{color:var(--muted)}
+  .readout .vx{color:var(--cyan)} .readout .vy{color:var(--amber)}
+  #loupe{
+    position:absolute; right:12px; top:12px; width:140px; height:140px; border-radius:50%;
+    border:2px solid var(--line); background:#06090d; box-shadow:0 8px 30px rgba(0,0,0,.5);
+    pointer-events:none; display:none;
+  }
+  .toolbar{
+    position:absolute; left:12px; top:12px; display:flex; gap:6px; flex-wrap:wrap; max-width:60%;
+  }
+  .tool{
+    font-family:var(--mono); font-size:11.5px; color:var(--ink); background:rgba(8,12,17,.8);
+    border:1px solid var(--line); padding:6px 9px; border-radius:8px; cursor:pointer; user-select:none;
+  }
+  .tool:hover{border-color:var(--accent)}
+  .tool.active{border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 0 1px var(--cyan) inset}
+
+  /* ---- sidebar ---- */
+  aside{
+    border-left:1px solid var(--line); background:var(--panel); overflow-y:auto;
+    padding:16px 16px 40px; display:flex; flex-direction:column; gap:16px;
+  }
+  .card{background:var(--panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:13px 13px 15px}
+  .card h2{margin:0 0 10px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:600}
+  .row{display:flex; gap:8px; align-items:center}
+  .row + .row{margin-top:9px}
+  label.axlabel{font-family:var(--mono); font-size:12px; width:62px; flex:0 0 auto}
+  .x .dot,.y .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .x .dot{background:var(--cyan)} .y .dot{background:var(--amber)}
+  input[type=number], input[type=text]{
+    width:100%; background:#0a1016; border:1px solid var(--line); color:var(--ink);
+    border-radius:8px; padding:7px 9px; font-family:var(--mono); font-size:13px; outline:none;
+  }
+  input[type=number]:focus{border-color:var(--cyan)}
+  .pickbtn{
+    flex:0 0 auto; font-family:var(--mono); font-size:11px; padding:7px 8px; border-radius:8px;
+    border:1px solid var(--line); background:#0a1016; color:var(--muted); cursor:pointer; white-space:nowrap;
+  }
+  .pickbtn.set{color:var(--ink); border-color:var(--accent)}
+  .pickbtn.active{border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 0 1px var(--cyan) inset}
+  .seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden}
+  .seg button{flex:1; background:#0a1016; border:0; color:var(--muted); font-family:var(--mono); font-size:11.5px; padding:6px 0; cursor:pointer}
+  .seg button.on{background:rgba(45,212,191,.12); color:var(--cyan)}
+  .hint{font-size:11.5px; color:var(--muted); line-height:1.55; margin-top:9px}
+
+  .btn{
+    border:0; border-radius:9px; padding:9px 12px; font-family:var(--sans); font-weight:600;
+    font-size:13px; cursor:pointer; color:#04211c; background:var(--accent); transition:filter .15s;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:#0a1016; color:var(--ink); border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--accent)}
+  .btn.block{width:100%}
+  .btn:disabled{opacity:.4; cursor:not-allowed; filter:none}
+  .btnrow{display:flex; gap:8px}
+
+  table{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px}
+  th{text-align:left; color:var(--muted); font-weight:500; padding:4px 6px; border-bottom:1px solid var(--line); font-size:11px}
+  td{padding:5px 6px; border-bottom:1px solid #16202b}
+  td.vx{color:var(--cyan)} td.vy{color:var(--amber)}
+  .delx{color:var(--danger); cursor:pointer; border:0; background:none; font-family:var(--mono); font-size:13px}
+  .tablewrap{max-height:230px; overflow:auto; margin-top:4px}
+  .count{font-family:var(--mono); font-size:11px; color:var(--muted)}
+  .status{
+    font-family:var(--mono); font-size:12px; padding:9px 11px; border-radius:9px;
+    border:1px solid var(--line); background:#0a1016; color:var(--muted); line-height:1.5;
+  }
+  .status b{color:var(--cyan); font-weight:600}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#1c2733;border-radius:8px;border:2px solid var(--panel)}
+
+  @media (max-width:880px){
+    .app{grid-template-columns:1fr; grid-template-rows:auto 52vh auto}
+    aside{border-left:0; border-top:1px solid var(--line)}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo"></div>
+    <div>
+      <h1>Plot Digitizer</h1>
+      <div class="sub">extract data points from an image of a plot</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="badge" id="zoombadge">100%</div>
+  </header>
+
+  <!-- workspace -->
+  <div class="stage" id="stage">
+    <canvas id="canvas"></canvas>
+
+    <div class="toolbar" id="toolbar" style="display:none">
+      <div class="tool" id="t-add">+ Add points</div>
+      <div class="tool" id="t-fit">Fit</div>
+      <div class="tool" id="t-load">Load image</div>
+    </div>
+
+    <div class="empty" id="empty">
+      <div class="drop" id="drop">
+        <strong>Drop a plot image here</strong>
+        <span>or click to browse · PNG / JPG / WebP</span>
+      </div>
+      <div style="font-family:var(--mono);font-size:11.5px;max-width:360px">
+        Tip: works best with a screenshot or scan of a single 2-D plot
+        whose axes are roughly horizontal &amp; vertical.
+      </div>
+    </div>
+
+    <div class="readout" id="readout" style="display:none">
+      <div><span class="k">px&nbsp;</span><span id="rpx">–, –</span></div>
+      <div><span class="k">x =</span> <span class="vx" id="rx">–</span></div>
+      <div><span class="k">y =</span> <span class="vy" id="ry">–</span></div>
+    </div>
+
+    <canvas id="loupe" width="140" height="140"></canvas>
+  </div>
+
+  <!-- sidebar -->
+  <aside>
+    <div class="status" id="status">Load a plot image to begin.</div>
+
+    <div class="card">
+      <h2>1 · Calibrate axes</h2>
+      <div class="x">
+        <div class="row">
+          <label class="axlabel"><span class="dot"></span>X&#8321;</label>
+          <input type="number" id="vX1" step="any" placeholder="known value" value="0">
+          <button class="pickbtn" data-pick="X1">pick</button>
+        </div>
+        <div class="row">
+          <label class="axlabel"><span class="dot"></span>X&#8322;</label>
+          <input type="number" id="vX2" step="any" placeholder="known value" value="1">
+          <button class="pickbtn" data-pick="X2">pick</button>
+        </div>
+        <div class="row" style="margin-top:9px">
+          <label class="axlabel">X scale</label>
+          <div class="seg" style="flex:1">
+            <button data-ax="x" data-type="lin" class="on">linear</button>
+            <button data-ax="x" data-type="log">log</button>
+          </div>
+        </div>
+      </div>
+      <div class="y" style="margin-top:13px">
+        <div class="row">
+          <label class="axlabel"><span class="dot"></span>Y&#8321;</label>
+          <input type="number" id="vY1" step="any" placeholder="known value" value="0">
+          <button class="pickbtn" data-pick="Y1">pick</button>
+        </div>
+        <div class="row">
+          <label class="axlabel"><span class="dot"></span>Y&#8322;</label>
+          <input type="number" id="vY2" step="any" placeholder="known value" value="1">
+          <button class="pickbtn" data-pick="Y2">pick</button>
+        </div>
+        <div class="row" style="margin-top:9px">
+          <label class="axlabel">Y scale</label>
+          <div class="seg" style="flex:1">
+            <button data-ax="y" data-type="lin" class="on">linear</button>
+            <button data-ax="y" data-type="log">log</button>
+          </div>
+        </div>
+      </div>
+      <div class="hint">For each axis pick two points whose values you know
+        (e.g. two gridlines / tick marks), then type those values. Two points per axis is enough.</div>
+    </div>
+
+    <div class="card">
+      <h2>2 · Collect points</h2>
+      <div class="btnrow">
+        <button class="btn block" id="addToggle" disabled>+ Add points</button>
+      </div>
+      <div class="row" style="margin-top:10px;justify-content:space-between">
+        <span class="count" id="ptcount">0 points</span>
+        <button class="btn ghost" id="undo" style="padding:5px 10px">Undo</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>#</th><th>x</th><th>y</th><th></th></tr></thead>
+          <tbody id="ptbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3 · Export</h2>
+      <div class="btnrow">
+        <button class="btn block" id="copyBtn" disabled>Copy</button>
+        <button class="btn ghost block" id="csvBtn" disabled>Download CSV</button>
+      </div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn ghost block" id="clearPts">Clear points</button>
+        <button class="btn ghost block" id="reset">Reset all</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<input type="file" id="file" accept="image/*" hidden>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const canvas = $('#canvas'), ctx = canvas.getContext('2d');
+  const stage = $('#stage');
+  const loupe = $('#loupe'), lctx = loupe.getContext('2d');
+
+  const S = {
+    img:null, scale:1, ox:0, oy:0,
+    calib:{X1:null,X2:null,Y1:null,Y2:null},     // {u,v} in image pixels
+    axis:{x:'lin',y:'lin'},
+    points:[],                                   // {u,v}
+    mode:'idle',                                 // idle | add | pickX1 ...
+    cursor:null                                  // {u,v} image px under pointer
+  };
+
+  // ---------- coordinate helpers ----------
+  const toImg = (cx,cy) => ({u:(cx-S.ox)/S.scale, v:(cy-S.oy)/S.scale});
+  const toScr = (u,v) => ({x:u*S.scale+S.ox, y:v*S.scale+S.oy});
+
+  function project(p,A,B){
+    const dx=B.u-A.u, dy=B.v-A.v, L2=dx*dx+dy*dy;
+    if(L2===0) return null;
+    return ((p.u-A.u)*dx+(p.v-A.v)*dy)/L2;
+  }
+  function interp(t,v1,v2,type){
+    if(type==='log'){
+      if(v1<=0||v2<=0) return NaN;
+      return Math.pow(10, Math.log10(v1)+t*(Math.log10(v2)-Math.log10(v1)));
+    }
+    return v1 + t*(v2-v1);
+  }
+  const num = id => parseFloat($('#'+id).value);
+  function calibReady(){
+    return S.calib.X1&&S.calib.X2&&S.calib.Y1&&S.calib.Y2 &&
+      [num('vX1'),num('vX2'),num('vY1'),num('vY2')].every(v=>!isNaN(v));
+  }
+  function dataAt(p){
+    if(!calibReady()) return null;
+    const tx=project(p,S.calib.X1,S.calib.X2);
+    const ty=project(p,S.calib.Y1,S.calib.Y2);
+    if(tx==null||ty==null) return null;
+    return {
+      x:interp(tx,num('vX1'),num('vX2'),S.axis.x),
+      y:interp(ty,num('vY1'),num('vY2'),S.axis.y)
+    };
+  }
+  function fmt(v){
+    if(v==null||isNaN(v)) return '–';
+    if(v===0) return '0';
+    const a=Math.abs(v);
+    if(a>=1e5||a<1e-3) return v.toExponential(4);
+    return parseFloat(v.toPrecision(6)).toString();
+  }
+
+  // ---------- canvas sizing ----------
+  function resize(){
+    const r=stage.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+    canvas.width=Math.max(1,r.width*dpr); canvas.height=Math.max(1,r.height*dpr);
+    canvas.style.width=r.width+'px'; canvas.style.height=r.height+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    render();
+  }
+  new ResizeObserver(resize).observe(stage);
+
+  function fit(){
+    if(!S.img) return;
+    const r=stage.getBoundingClientRect(), pad=36;
+    const s=Math.min((r.width-pad)/S.img.width,(r.height-pad)/S.img.height);
+    S.scale=s; S.ox=(r.width-S.img.width*s)/2; S.oy=(r.height-S.img.height*s)/2;
+    render();
+  }
+
+  // ---------- rendering ----------
+  function render(){
+    const r=stage.getBoundingClientRect();
+    ctx.clearRect(0,0,r.width,r.height);
+    if(S.img){
+      ctx.imageSmoothingEnabled = S.scale<3 ? true : false;
+      ctx.drawImage(S.img,S.ox,S.oy,S.img.width*S.scale,S.img.height*S.scale);
+    }
+    // axis lines
+    const drawAxis=(A,B,col)=>{
+      if(!A||!B) return;
+      const a=toScr(A.u,A.v), b=toScr(B.u,B.v);
+      ctx.strokeStyle=col; ctx.lineWidth=1.4; ctx.setLineDash([6,5]);
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      ctx.setLineDash([]);
+    };
+    drawAxis(S.calib.X1,S.calib.X2,'rgba(45,212,191,.85)');
+    drawAxis(S.calib.Y1,S.calib.Y2,'rgba(251,191,36,.85)');
+
+    const marker=(p,col,txt)=>{
+      if(!p) return;
+      const s=toScr(p.u,p.v);
+      ctx.strokeStyle=col; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(s.x-9,s.y); ctx.lineTo(s.x+9,s.y);
+      ctx.moveTo(s.x,s.y-9); ctx.lineTo(s.x,s.y+9); ctx.stroke();
+      ctx.beginPath(); ctx.arc(s.x,s.y,6,0,7); ctx.stroke();
+      if(txt){ ctx.fillStyle=col; ctx.font='600 11px JetBrains Mono, monospace';
+        ctx.fillText(txt,s.x+10,s.y-8); }
+    };
+    marker(S.calib.X1,'#2dd4bf','X1'); marker(S.calib.X2,'#2dd4bf','X2');
+    marker(S.calib.Y1,'#fbbf24','Y1'); marker(S.calib.Y2,'#fbbf24','Y2');
+
+    // data points
+    S.points.forEach((p,i)=>{
+      const s=toScr(p.u,p.v);
+      ctx.fillStyle='rgba(251,113,133,.92)'; ctx.strokeStyle='#fff'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(s.x,s.y,4.5,0,7); ctx.fill(); ctx.stroke();
+    });
+    $('#zoombadge').textContent=Math.round(S.scale*100)+'%';
+  }
+
+  function drawLoupe(cx,cy){
+    if(!S.img){loupe.style.display='none';return;}
+    loupe.style.display='block';
+    const size=loupe.width, zoom=5, src=size/zoom;
+    const p=toImg(cx,cy);
+    lctx.clearRect(0,0,size,size);
+    lctx.imageSmoothingEnabled=false;
+    lctx.save();
+    lctx.beginPath(); lctx.arc(size/2,size/2,size/2-2,0,7); lctx.clip();
+    lctx.fillStyle='#06090d'; lctx.fillRect(0,0,size,size);
+    lctx.drawImage(S.img, p.u-src/2, p.v-src/2, src, src, 0,0,size,size);
+    lctx.restore();
+    // crosshair
+    lctx.strokeStyle='rgba(94,234,212,.9)'; lctx.lineWidth=1;
+    lctx.beginPath(); lctx.moveTo(size/2,0); lctx.lineTo(size/2,size);
+    lctx.moveTo(0,size/2); lctx.lineTo(size,size/2); lctx.stroke();
+  }
+
+  // ---------- pointer interaction ----------
+  let down=null, moved=false;
+  canvas.addEventListener('pointerdown', e=>{
+    if(!S.img) return;
+    canvas.setPointerCapture(e.pointerId);
+    const r=canvas.getBoundingClientRect();
+    down={cx:e.clientX-r.left, cy:e.clientY-r.top, ox:S.ox, oy:S.oy};
+    moved=false;
+  });
+  canvas.addEventListener('pointermove', e=>{
+    const r=canvas.getBoundingClientRect();
+    const cx=e.clientX-r.left, cy=e.clientY-r.top;
+    if(down){
+      const dx=cx-down.cx, dy=cy-down.cy;
+      if(Math.abs(dx)+Math.abs(dy)>4){ moved=true; S.ox=down.ox+dx; S.oy=down.oy+dy; render(); }
+    }
+    S.cursor=toImg(cx,cy);
+    updateReadout();
+    drawLoupe(cx,cy);
+  });
+  canvas.addEventListener('pointerup', e=>{
+    if(!down) return;
+    const r=canvas.getBoundingClientRect();
+    const cx=e.clientX-r.left, cy=e.clientY-r.top;
+    if(!moved) handleClick(cx,cy);
+    down=null;
+  });
+  canvas.addEventListener('pointerleave', ()=>{ loupe.style.display='none'; });
+
+  canvas.addEventListener('wheel', e=>{
+    if(!S.img) return;
+    e.preventDefault();
+    const r=canvas.getBoundingClientRect();
+    const cx=e.clientX-r.left, cy=e.clientY-r.top;
+    const f=e.deltaY<0?1.12:1/1.12;
+    const ip=toImg(cx,cy);
+    S.scale=Math.min(60,Math.max(0.05,S.scale*f));
+    S.ox=cx-ip.u*S.scale; S.oy=cy-ip.v*S.scale;
+    render(); updateReadout();
+  },{passive:false});
+
+  function handleClick(cx,cy){
+    const p=toImg(cx,cy);
+    if(S.mode.startsWith('pick')){
+      const key=S.mode.slice(4);
+      S.calib[key]=p;
+      setMode('idle');
+      updatePickButtons();
+      checkCalib();
+      render();
+    } else if(S.mode==='add'){
+      S.points.push(p);
+      refreshPoints(); render();
+    }
+  }
+
+  function updateReadout(){
+    $('#readout').style.display = S.img?'block':'none';
+    if(!S.cursor) return;
+    $('#rpx').textContent = Math.round(S.cursor.u)+', '+Math.round(S.cursor.v);
+    const d=dataAt(S.cursor);
+    $('#rx').textContent = d?fmt(d.x):'–';
+    $('#ry').textContent = d?fmt(d.y):'–';
+  }
+
+  // ---------- modes & buttons ----------
+  function setMode(m){
+    S.mode=m;
+    canvas.style.cursor = m==='idle'?'grab':'crosshair';
+    $('#addToggle').classList.toggle('btn-on', m==='add');
+    $('#addToggle').textContent = m==='add' ? '✓ Adding — click plot' : '+ Add points';
+    $('#t-add').classList.toggle('active', m==='add');
+    document.querySelectorAll('.pickbtn').forEach(b=>{
+      b.classList.toggle('active', m==='pick'+b.dataset.pick);
+    });
+    updateStatus();
+  }
+  function updatePickButtons(){
+    document.querySelectorAll('.pickbtn').forEach(b=>{
+      const has=!!S.calib[b.dataset.pick];
+      b.classList.toggle('set',has);
+      b.textContent = has?'✓ set':'pick';
+    });
+  }
+  function checkCalib(){
+    const ready=calibReady();
+    $('#addToggle').disabled=!ready;
+    updateStatus();
+    refreshPoints();
+  }
+  function updateStatus(){
+    const st=$('#status'); let msg;
+    if(!S.img){ msg='Load a plot image to begin.'; }
+    else if(S.mode.startsWith('pick')){ msg='Click the <b>'+S.mode.slice(4)+'</b> reference point on the plot.'; }
+    else if(!calibReady()){
+      const need=['X1','X2','Y1','Y2'].filter(k=>!S.calib[k]);
+      msg = need.length ? 'Pick the remaining reference points: <b>'+need.join(', ')+'</b>, then enter their values.'
+                        : 'Enter the known value for each reference point.';
+    }
+    else if(S.mode==='add'){ msg='Calibrated. Click points on the curve to digitize them.'; }
+    else { msg='Calibrated ✓ — hit <b>Add points</b> and click along your curve.'; }
+    st.innerHTML=msg;
+  }
+
+  document.querySelectorAll('.pickbtn').forEach(b=>{
+    b.addEventListener('click',()=> setMode(S.mode==='pick'+b.dataset.pick?'idle':'pick'+b.dataset.pick));
+  });
+  document.querySelectorAll('.seg button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const ax=b.dataset.ax;
+      S.axis[ax]=b.dataset.type;
+      b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+      updateReadout(); refreshPoints();
+    });
+  });
+  ['vX1','vX2','vY1','vY2'].forEach(id=>$('#'+id).addEventListener('input',()=>{checkCalib();updateReadout();}));
+
+  $('#addToggle').addEventListener('click',()=> setMode(S.mode==='add'?'idle':'add'));
+  $('#t-add').addEventListener('click',()=> setMode(S.mode==='add'?'idle':'add'));
+  $('#t-fit').addEventListener('click',fit);
+  $('#t-load').addEventListener('click',()=>$('#file').click());
+  $('#undo').addEventListener('click',()=>{ S.points.pop(); refreshPoints(); render(); });
+  $('#clearPts').addEventListener('click',()=>{ S.points=[]; refreshPoints(); render(); });
+  $('#reset').addEventListener('click',()=>{
+    S.calib={X1:null,X2:null,Y1:null,Y2:null}; S.points=[]; setMode('idle');
+    updatePickButtons(); checkCalib(); render();
+  });
+
+  // ---------- points table & export ----------
+  function refreshPoints(){
+    const body=$('#ptbody'); body.innerHTML='';
+    S.points.forEach((p,i)=>{
+      const d=dataAt(p);
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${i+1}</td><td class="vx">${d?fmt(d.x):'–'}</td>`+
+        `<td class="vy">${d?fmt(d.y):'–'}</td>`+
+        `<td><button class="delx" data-i="${i}">×</button></td>`;
+      body.appendChild(tr);
+    });
+    body.querySelectorAll('.delx').forEach(b=>b.addEventListener('click',e=>{
+      S.points.splice(+e.target.dataset.i,1); refreshPoints(); render();
+    }));
+    $('#ptcount').textContent=S.points.length+(S.points.length===1?' point':' points');
+    const has=S.points.length>0 && calibReady();
+    $('#copyBtn').disabled=!has; $('#csvBtn').disabled=!has;
+  }
+  function asCSV(){
+    let out='x,y\n';
+    S.points.forEach(p=>{ const d=dataAt(p); if(d) out+=d.x+','+d.y+'\n'; });
+    return out;
+  }
+  $('#copyBtn').addEventListener('click',async()=>{
+    try{ await navigator.clipboard.writeText(asCSV());
+      const b=$('#copyBtn'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1200);
+    }catch(e){ alert('Copy failed — use Download CSV instead.'); }
+  });
+  $('#csvBtn').addEventListener('click',()=>{
+    const blob=new Blob([asCSV()],{type:'text/csv'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='digitized_points.csv'; a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // ---------- image loading ----------
+  function loadFile(f){
+    if(!f||!f.type.startsWith('image/')) return;
+    const img=new Image();
+    img.onload=()=>{
+      S.img=img; S.points=[]; S.calib={X1:null,X2:null,Y1:null,Y2:null};
+      $('#empty').classList.add('hide'); $('#toolbar').style.display='flex';
+      setMode('idle'); updatePickButtons(); fit(); checkCalib();
+    };
+    img.src=URL.createObjectURL(f);
+  }
+  $('#file').addEventListener('change',e=>loadFile(e.target.files[0]));
+  $('#drop').addEventListener('click',()=>$('#file').click());
+  ['dragover','dragenter'].forEach(ev=>stage.addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.add('hover');}));
+  ['dragleave','drop'].forEach(ev=>stage.addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.remove('hover');}));
+  stage.addEventListener('drop',e=>{ if(e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]); });
+  window.addEventListener('paste',e=>{
+    const it=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
+    if(it) loadFile(it.getAsFile());
+  });
+
+  resize();
+})();
+</script>
+</body>
+</html>
