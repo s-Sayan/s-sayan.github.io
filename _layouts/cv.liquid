@@ -28,15 +28,21 @@ layout: default
   }
   /* main.css has a generic `table:not(.table) td, table:not(.table) th { border-top: 1px
      solid ...; }` rule meant to give plain content tables (e.g. in blog posts) a lightweight
-     row divider. It also matches our badge+location mini-table (table.table-cv isn't
-     "table.table"), adding an unwanted line above the badge and another above the location
-     text. Remove it here, and top-align the row so the badge and the title line up. */
-  .date-column table.table-cv td,
-  .date-column table.table-cv th {
+     row divider. It also matches every badge mini-table (table.table-cv isn't "table.table"),
+     including Awards/Publications whose date column isn't a .date-column, adding an unwanted
+     line above the badge (and above the location text, where present). Remove it everywhere
+     within the CV, and top-align the row so the badge and the title line up. */
+  .cv table.table-cv td,
+  .cv table.table-cv th {
     border-top: none;
   }
   .cv .row {
     align-items: flex-start;
+  }
+  /* Default <li> bullet markers (disc) show up next to each entry since this site disables
+     Tailwind's preflight reset; remove them. */
+  .cv .list-group-item {
+    list-style: none;
   }
   /* al_folio_core's .date-column shifts its content up 5px (translateY(-5px)), which made
      sense against the old vertically-centered layout but now leaves the badge sitting flush
