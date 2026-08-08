@@ -15,6 +15,18 @@ layout: default
   .social .contact-icons a {
     margin: 0 0.5rem 0 0;
   }
+  /* The profile photo/address column is taller than the bio text, so the clearfix
+     below the bio reserves blank space to clear it before .social can render (see
+     comment above) — .social then sits flush against "selected publications". Nudge
+     the icon row up into the middle of that reserved blank space with a transform,
+     which doesn't affect layout flow, so "selected publications" doesn't move.
+     Scoped to the breakpoint where .profile actually becomes a narrower side column
+     (see .profile width:30% below) — below that the columns stack and there's no gap. */
+  @media (min-width: 576px) {
+    .social {
+      transform: translateY(-85px);
+    }
+  }
 </style>
 <div class="post">
   <header class="post-header">
