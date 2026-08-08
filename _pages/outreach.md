@@ -4,7 +4,7 @@ permalink: /outreach/
 title: outreach
 description: Public engagement, science communication, and outreach activities.
 nav: true
-nav_order: 3
+nav_order: 4
 ---
 
 Alongside my research, I hold a deep passion for science outreach. Fostering an appreciation and understanding of science among school children in India is critically important to me &mdash; engaging with young minds and kindling their interest in the scientific world brings me immense joy and satisfaction.
