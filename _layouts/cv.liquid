@@ -1,0 +1,31 @@
+---
+layout: default
+---
+<!-- Local override of al_folio_core's _layouts/cv.liquid (v1.0.15): identical except for the
+     added <style> block below. This layout ignores {{ content }} entirely (it only calls
+     {% al_folio_cv_render %}), so a fix placed in _pages/cv.md's markdown body is silently
+     dropped — it has to live here instead. If al_folio_core's cv.liquid changes upstream,
+     re-sync this file and keep the <style> block. -->
+<style>
+  /* The date badges (e.g. "2024 - present" vs "2022 - 2023") sit in a fixed-width
+     .date-column that's centered (text-center), so longer badges overflow the column
+     further to the left than shorter ones, making them look misaligned. Left-align instead. */
+  .date-column.text-center {
+    text-align: left !important;
+  }
+</style>
+{% assign cv_feature_enabled = site.al_folio.features.cv.enabled | default: true %}
+
+{% if site.plugins contains 'al_folio_cv' and cv_feature_enabled %}
+  {% al_folio_cv_render %}
+{% else %}
+  <div class="post">
+    <header class="post-header">
+      <h1 class="post-title">{{ page.title }}</h1>
+      <p class="post-description">CV rendering is unavailable.</p>
+    </header>
+    <article>
+      <p>Enable the <code>al_folio_cv</code> plugin and set <code>al_folio.features.cv.enabled: true</code> to render this page.</p>
+    </article>
+  </div>
+{% endif %}
