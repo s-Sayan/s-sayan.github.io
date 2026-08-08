@@ -2,6 +2,13 @@
 layout: default
 ---
 <style>
+  /* The subtitle (e.g. "Postdoctoral Research Associate, Northeastern University") is
+     otherwise unstyled, inheriting body's font-weight: 300 and font-size: 1rem -- it reads
+     as plain as the surrounding text. Give it a bit more presence. */
+  .post-header .desc {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
   /* Local override: shrink the social/contact icon row (default is 4rem, quite button-like)
      and left-align it instead of centered. Kept in the main content flow (below the bio,
      after the float clears) rather than inside the floated profile column, since that
