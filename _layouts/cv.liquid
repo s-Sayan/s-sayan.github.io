@@ -1,11 +1,13 @@
 ---
 layout: default
 ---
-<!-- Local override of al_folio_core's _layouts/cv.liquid (v1.0.15): identical except for the
-     added <style> block below. This layout ignores {{ content }} entirely (it only calls
-     {% al_folio_cv_render %}), so a fix placed in _pages/cv.md's markdown body is silently
-     dropped — it has to live here instead. If al_folio_core's cv.liquid changes upstream,
-     re-sync this file and keep the <style> block. -->
+{% comment %}
+  Local override of al_folio_core's _layouts/cv.liquid (v1.0.15): identical except for the
+  added <style> block below. This layout ignores the page's rendered content entirely (it
+  only calls the al_folio_cv_render tag), so a fix placed in _pages/cv.md's markdown body is
+  silently dropped -- it has to live here instead. If al_folio_core's cv.liquid changes
+  upstream, re-sync this file and keep the <style> block.
+{% endcomment %}
 <style>
   /* The date badges (e.g. "2024 - present" vs "2022 - 2023") sit in a fixed-width
      .date-column that's centered (text-center), so longer badges overflow the column
