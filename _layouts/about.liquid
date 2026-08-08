@@ -15,6 +15,16 @@ layout: default
   .social .contact-icons a {
     margin: 0 0.5rem 0 0;
   }
+  /* The bio text sits in a "clearfix" box that's forced to extend down to the bottom of
+     the floated profile image+address column, so on wide screens there's empty space
+     between the visible end of the bio text and where this block starts. Nudge it up into
+     that gap. Only applied where the profile column actually floats beside the text
+     (matches al_folio_core's own .profile breakpoint). */
+  @media (min-width: 576px) {
+    .social {
+      margin-top: -2rem;
+    }
+  }
 </style>
 <div class="post">
   <header class="post-header">
