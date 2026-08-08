@@ -38,6 +38,14 @@ layout: default
   .cv .row {
     align-items: flex-start;
   }
+  /* al_folio_core's .date-column shifts its content up 5px (translateY(-5px)), which made
+     sense against the old vertically-centered layout but now leaves the badge sitting flush
+     against the divider above while the title (no such offset) sits normally below it.
+     Cancel the vertical shift so both start at the same line; keep the horizontal shift,
+     which compensates for the column's own 15px left padding. */
+  .date-column {
+    transform: translateX(-15px) translateY(0) !important;
+  }
 </style>
 {% assign cv_feature_enabled = site.al_folio.features.cv.enabled | default: true %}
 
