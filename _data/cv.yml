@@ -1,0 +1,269 @@
+cv:
+  name: Sayan Saha
+  label: Postdoctoral Research Associate, Northeastern University
+  email: sa.saha@northeastern.edu
+  location: Boston, MA
+  image: ""
+  summary: >
+    Observational and computational astrophysicist working on weak gravitational
+    lensing with the SuperBIT balloon-borne telescope, with a PhD background in
+    Bayesian inference for CMB cosmology.
+
+  social_networks:
+    - network: GitHub
+      username: s-sayan
+    - network: ORCID
+      username: 0000-0002-6044-2164
+
+  address:
+    street: 360 Huntington Ave
+    city: Boston
+    region: MA
+    postalCode: "02115"
+    countryCode: US
+
+  sections:
+    Education:
+      - institution: Indian Institute of Science Education and Research (IISER), Pune, India
+        location: Pune, India
+        area: Physics
+        studyType: PhD
+        start_date: "2019-08"
+        end_date: "2024-09"
+        highlights:
+          - "Thesis: Novel Bayesian Inferences from the Cosmic Microwave Background"
+          - "Advisor: Prof. Tarun Souradeep"
+          - "Built a Maximum-a-Posteriori (MAP) estimator for cluster mass measurement from CMB lensing, extending the clusterlens module of LensIt"
+          - "Investigated statistical isotropy violation and inferred local-motion velocity from small-scale CMB using Bayesian Hamiltonian Monte Carlo"
+      - institution: IISER, Pune, India
+        location: Pune, India
+        area: Physics
+        studyType: M.Sc.
+        start_date: "2017"
+        end_date: "2019"
+        highlights:
+          - "Analysed high-energy cosmic-ray air-shower data using machine learning and deep learning techniques"
+          - "Developed a Monte Carlo pipeline to simulate air showers for different primary species"
+      - institution: Ramakrishna Mission Residential College, Narendrapur (University of Calcutta), India
+        location: Narendrapur, India
+        area: Physics
+        studyType: B.Sc.
+        start_date: "2014"
+        end_date: "2017"
+
+    Experience:
+      - company: Northeastern University
+        position: Postdoctoral Research Associate
+        location: Boston, MA
+        start_date: "2024-10"
+        end_date: present
+        summary: >
+          Working on the NASA balloon-borne imaging telescope SuperBIT. Leading the
+          development of the weak-lensing shape-measurement pipeline.
+        highlights:
+          - "Developing the end-to-end image processing and weak-lensing pipeline for SuperBIT"
+          - "PSF modelling, galaxy shape measurement, shear calibration, realistic image simulations, and end-to-end pipeline validation"
+
+    Visiting Positions:
+      - company: Raman Research Institute
+        position: Visiting Researcher
+        location: Bengaluru, India
+        start_date: "2023-09"
+        end_date: "2024-09"
+        summary: "Host: Prof. Tarun Souradeep."
+      - company: Université de Genève
+        position: Swiss Government Excellence Fellow
+        location: Geneva, Switzerland
+        start_date: "2022-09"
+        end_date: "2023-08"
+        summary: "Host: Prof. Julien Carron."
+
+    Experiments & Collaborations:
+      - name: SuperBIT
+        summary: Lead developer of the weak-lensing shape-measurement pipeline for the SuperBIT balloon-borne telescope.
+      - name: CMB-S4
+        summary: Member of the Cluster Working Group; contributing to forecasts of galaxy cluster mass detection.
+      - name: Cosmoglobe
+        summary: Member of the OpenHFI group, contributing to open CMB data-analysis efforts.
+      - name: CMB-Bharat
+        summary: Web Coordinator for the proposed Indian CMB space mission.
+
+    Publications:
+      - title: "Lensing in the Blue III: Weak Lensing Shape Catalogs of 30 Merging Galaxy Clusters"
+        authors: S. Saha, J. McCleary, et al.
+        publisher: Submitted to ApJ
+        releaseDate: "2026"
+        url: https://arxiv.org/abs/2603.18376
+      - title: "Lensing in the Blue IV: First Weak Lensing Convergence Maps from the Stratosphere"
+        authors: S. Saha, M. Amit, et al.
+        publisher: In preparation
+        releaseDate: "2026"
+      - title: "ShearNet: Neural-Network-Based Shear Estimation for Balloon-Borne and Space-Based Weak Lensing Surveys"
+        authors: S. Saha, A. Field, et al.
+        publisher: In preparation
+        releaseDate: "2026"
+      - title: Cluster profiles from beyond-the-QE CMB lensing mass maps
+        authors: S. Saha, L. Legrand, J. Carron
+        publisher: JCAP 01 (2024) 024
+        releaseDate: "2024"
+        url: https://arxiv.org/abs/2307.11711
+      - title: Bayesian estimation of our local motion from the Planck-2018 CMB temperature map
+        authors: S. Saha, S. Shaikh, S. Mukherjee, T. Souradeep, B. D. Wandelt
+        publisher: JCAP 10 (2021) 072
+        releaseDate: "2021"
+        url: https://arxiv.org/abs/2106.07666
+
+    Awards:
+      - title: Swiss Government Excellence Scholarship (Research)
+        date: "2022-2023"
+        awarder: Université de Genève / ESKAS No. 2022.0316
+        summary: CHF 23,540 stipend + CHF 600 travel allowance.
+      - title: Grant, Future Science with CMB × LSS, YITP Kyoto
+        date: "2023"
+        awarder: Société académique de Genève (SACAD)
+        summary: 2000 CHF.
+      - title: Infosys Foundation Travel Award and Fellowship
+        date: "2023"
+        awarder: Infosys Foundation
+        summary: 50,000 INR, to attend Future Cosmology, IESC Cargèse.
+      - title: Institute PhD Fellowship
+        date: "2019"
+        awarder: IISER Pune (MHRD)
+      - title: Institute M.Sc. Fellowship
+        date: "2017-2019"
+        awarder: IISER Pune (MHRD)
+      - title: State Topper, National Graduate Physics Examination
+        date: "2017"
+        awarder: Indian Association of Physics Teachers
+        summary: Top 1% of 774 candidates.
+      - title: DST-INSPIRE Scholarship
+        date: "2014-2017"
+        awarder: Ministry of Human Resource Development, Government of India
+
+    Invited Talks:
+      - title: "Mapping Dark Matter from the Stratosphere (seminar), CCAPP Seminar, Ohio State University"
+        releaseDate: "2026-04"
+      - title: "Inferences from the CMB & Balloons (seminar), CMB Lunch Talk, Lawrence Berkeley National Laboratory"
+        releaseDate: "2026-04"
+      - title: "Mapping Dark Matter from the Stratosphere (seminar), KIPAC Tea Talk, Stanford University"
+        releaseDate: "2026-04"
+      - title: "Mapping Dark Matter from the Stratosphere (seminar), Jet Propulsion Laboratory, NASA"
+        releaseDate: "2026-04"
+      - title: "Mapping Dark Matter from the Stratosphere (seminar), Cosmology Journal Club, Caltech"
+        releaseDate: "2026-04"
+
+    Contributed Talks & Schools:
+      - title: "Weak Lensing with SuperBIT: Shape Measurement and Mass Mapping of Galaxy Clusters (talk & poster), mm Universe 2025, University of Chicago"
+        releaseDate: "2025-06"
+      - title: "Novel Bayesian Inferences from the Cosmic Microwave Background (talk), Relativistic Effects and Novel Observables in Cosmology, Université de Genève"
+        releaseDate: "2024-07"
+      - title: "Exploring Cutting-Edge Statistical Methods for Parameter Inference in Present and Future CMB Surveys (talk), Neighbourhood Cosmology Meeting, Raman Research Institute, Bengaluru"
+        releaseDate: "2023-11"
+      - title: "Extracting Cluster Information from Small-Scale CMB (talk), Third EuCAPT Annual Symposium, CERN, Geneva"
+        releaseDate: "2023-05"
+      - title: "Dark Matter Halos under the Spotlight of CMB-Lensing (talk), Future Cosmology, IESC Cargèse"
+        releaseDate: "2023-04"
+      - title: "Dark Matter Halos under the Spotlight of CMB-Lensing (talk & poster), Future Science with CMB × LSS, YITP Kyoto"
+        releaseDate: "2023-04"
+      - title: "Inferring Our Local Motion from Small-Scale CMB (talk), Cosmoglobe Winter Workshop, University of Oslo"
+        releaseDate: "2023-01"
+      - title: "Physics of the Early Universe, International Centre for Theoretical Sciences (ICTS), Bengaluru"
+        releaseDate: "2022-01"
+      - title: "Data Analysis in Cosmology and Astroparticle Physics, Indian Statistical Institute, Kolkata"
+        releaseDate: "2021-08"
+      - title: "Summer School in Statistics for Astronomers, Penn State University"
+        releaseDate: "2021-06"
+      - title: "Pune–Mumbai Collider Meet, IISER Pune"
+        releaseDate: "2019-03"
+
+    Skills:
+      - name: Languages
+        keywords: [Python, Fortran 90, Shell scripting]
+      - name: Scientific Tools
+        keywords: [astropy, GalSim, ngmix, metacalibration, plancklens, CAMB, HEALPix/healpy]
+      - name: Machine Learning
+        keywords: [JAX, PyTorch, scikit-learn, TensorFlow]
+      - name: Sampling Methods
+        keywords: [MCMC, Metropolis-Hastings, Hamiltonian Monte Carlo]
+      - name: Infrastructure
+        keywords: [Git, LaTeX, HPC/SLURM, Linux]
+      - name: Open-Source Software
+        keywords: [superbit-lensing, SMPy, ShearNet, CosmoHMC, LensIt]
+
+    Mentoring:
+      - name: Adam Field
+        summary: Undergraduate, Worcester Polytechnic Institute
+        start_date: "2025"
+        end_date: present
+        highlights:
+          - "Neural-network-based shear estimation (ShearNet)"
+      - name: Leila Ohashi and Marcus Michaud
+        summary: NSF-funded Young Scholars Program (YSP), Northeastern University
+        start_date: "2025-06"
+        end_date: "2025-07"
+      - name: Maya Amit
+        summary: Northeastern Co-op program; currently a graduate student at NYU
+        start_date: "2024"
+        end_date: "2025"
+      - name: George Vassilakis
+        summary: Undergraduate research, Northeastern University; currently a PhD student at the University of Cambridge
+        start_date: "2024"
+        end_date: "2025"
+
+    Teaching:
+      - company: IISER Pune
+        position: "Teaching Assistant, Electricity & Magnetism (PHY201)"
+        start_date: "2019-09"
+        end_date: "2019-12"
+      - company: IISER Pune
+        position: "Teaching Assistant, Nuclear & Particle Physics (PHY422)"
+        start_date: "2020-01"
+        end_date: "2020-05"
+      - company: IISER Pune
+        position: "Teaching Assistant, Group Theory in Physics (PHY356)"
+        start_date: "2020-09"
+        end_date: "2020-12"
+
+    Outreach:
+      - company: Raman Research Institute
+        position: India International Science Festival (IISF) 2024
+        location: Faridabad, Haryana, India
+        summary: Represented RRI at the India International Science Festival; team received the Best Conceptual Pavilion Award.
+      - company: National Children's Science Congress
+        position: Judge, Regional level
+        location: Bengaluru, India
+        start_date: "2023"
+        summary: Served as a judge for the National Children's Science Congress 2023.
+      - company: Raman Research Institute
+        position: "Outreach talk: The Universe in your pocket"
+        location: Bengaluru, India
+        summary: Delivered a talk as part of the outreach program for school children organised by RRI.
+
+    Service:
+      - company: CMB-Bharat
+        position: Lead Organiser, Monthly Cosmology Seminar Series
+        summary: Indian cosmology consortium.
+      - company: IISER Pune
+        position: Organiser, Astrophysics, Cosmology & Particle Physics Journal Club
+        start_date: "2019"
+        end_date: "2020"
+      - company: Université de Genève / Raman Research Institute
+        position: Regular participant, Cosmology Journal Club and Very Sirius Meeting
+
+    Languages:
+      - name: English
+        summary: Fluent
+      - name: Bengali
+        summary: Native
+      - name: Hindi
+        summary: Fluent
+
+    References:
+      - name: Prof. Tarun Souradeep
+        reference: "PhD Supervisor, Raman Research Institute, Bengaluru, India"
+      - name: Prof. Jacqueline McCleary
+        reference: "Postdoc advisor, Northeastern University, Boston, USA"
+      - name: Prof. Julien Carron
+        reference: "Collaborator, University of Geneva, Switzerland"
+      - name: Prof. Benjamin D. Wandelt
+        reference: "Collaborator, Institut d'Astrophysique de Paris, France"
