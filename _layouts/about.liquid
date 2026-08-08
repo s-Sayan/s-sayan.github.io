@@ -2,12 +2,18 @@
 layout: default
 ---
 <style>
-  /* Local override: shrink the social/contact icon row (default is 4rem, quite button-like) */
-  .social .contact-icons {
-    font-size: 2rem;
+  /* Local override: shrink the social/contact icon row (default is 4rem, quite button-like),
+     left-align it, and place it in the profile sidebar next to the address instead of
+     centered below the bio. */
+  .profile .social {
+    text-align: left;
+    margin-top: 0.75rem;
   }
-  .social .contact-icons a {
-    margin: 0 0.5rem;
+  .profile .social .contact-icons {
+    font-size: 1.75rem;
+  }
+  .profile .social .contact-icons a {
+    margin: 0 0.5rem 0 0;
   }
 </style>
 <div class="post">
@@ -44,6 +50,12 @@ layout: default
         {% if page.profile.more_info %}
           <div class="more-info">{{ page.profile.more_info }}</div>
         {% endif %}
+        <!-- Social (moved up into the profile sidebar, parallel to the address) -->
+        {% if page.social %}
+          <div class="social">
+            <div class="contact-icons">{% social_links %}</div>
+          </div>
+        {% endif %}
       </div>
     {% endif %}
 
@@ -63,13 +75,6 @@ layout: default
         <a href="{{ '/blog/' | relative_url }}" style="color: inherit">latest posts</a>
       </h2>
       {% include latest_posts.liquid %}
-    {% endif %}
-
-    <!-- Social (moved above Selected papers, per site preference) -->
-    {% if page.social %}
-      <div class="social">
-        <div class="contact-icons">{% social_links %}</div>
-      </div>
     {% endif %}
 
     <!-- Selected papers -->

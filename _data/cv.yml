@@ -1,26 +1,5 @@
 cv:
-  name: Sayan Saha
-  label: Postdoctoral Research Associate, Northeastern University
-  email: sa.saha@northeastern.edu
-  location: Boston, MA
   image: ""
-  summary: >
-    Observational and computational astrophysicist working on weak gravitational
-    lensing with the SuperBIT balloon-borne telescope, with a PhD background in
-    Bayesian inference for CMB cosmology.
-
-  social_networks:
-    - network: GitHub
-      username: s-sayan
-    - network: ORCID
-      username: 0000-0002-6044-2164
-
-  address:
-    street: 360 Huntington Ave
-    city: Boston
-    region: MA
-    postalCode: "02115"
-    countryCode: US
 
   sections:
     Education:
@@ -33,8 +12,6 @@ cv:
         highlights:
           - "Thesis: Novel Bayesian Inferences from the Cosmic Microwave Background"
           - "Advisor: Prof. Tarun Souradeep"
-          - "Implemented a Maximum-a-Posteriori (MAP) estimator for cluster mass measurement from CMB lensing, extending the clusterlens module of LensIt"
-          - "Investigated statistical isotropy violation and inferred local-motion velocity from small-scale CMB using Bayesian Hamiltonian Monte Carlo"
       - institution: IISER, Pune, India
         location: Pune, India
         area: Physics
@@ -57,12 +34,6 @@ cv:
         location: Boston, MA
         start_date: "2024-10"
         end_date: present
-        summary: >
-          Working on the NASA balloon-borne imaging telescope SuperBIT. Leading the
-          development of the weak-lensing shape-measurement pipeline.
-        highlights:
-          - "Developing the end-to-end image processing and weak-lensing pipeline for SuperBIT"
-          - "PSF modelling, galaxy shape measurement, shear calibration, realistic image simulations, and pipeline validation"
       - company: Raman Research Institute
         position: Visiting Researcher
         location: Bengaluru, India
@@ -104,33 +75,14 @@ cv:
         awarder: Ministry of Human Resource Development, Government of India
 
     Invited Talks:
-      - title: "Mapping Dark Matter from the Stratosphere (seminar), CCAPP Seminar, Ohio State University"
-        releaseDate: "2026-04"
-      - title: "Inferences from the CMB & Balloons (seminar), CMB Lunch Talk, Lawrence Berkeley National Laboratory"
-        releaseDate: "2026-04"
-      - title: "Mapping Dark Matter from the Stratosphere (seminar), KIPAC Tea Talk, Stanford University"
-        releaseDate: "2026-04"
-      - title: "Mapping Dark Matter from the Stratosphere (seminar), Dark-Sector Meeting, Jet Propulsion Laboratory, NASA"
-        releaseDate: "2026-04"
-      - title: "Mapping Dark Matter from the Stratosphere (seminar), Cosmology Journal Club, Caltech"
-        releaseDate: "2026-04"
+      - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), CCAPP Seminar, Ohio State University"
+      - bullet: "**Apr 2026** &mdash; Inferences from the CMB & Balloons (seminar), CMB Lunch Talk, Lawrence Berkeley National Laboratory"
+      - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), KIPAC Tea Talk, Stanford University"
+      - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), Dark-Sector Meeting, Jet Propulsion Laboratory, NASA"
+      - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), Cosmology Journal Club, Caltech"
 
     Mentoring:
-      - name: Adam Field
-        summary: Undergraduate, Worcester Polytechnic Institute
-        start_date: "2025"
-        end_date: present
-        highlights:
-          - "Neural-network-based shear estimation (ShearNet)"
-      - name: Karuna Tarafdar and Adam Aoua
-        summary: NSF-funded Young Scholars Program (YSP), Northeastern University
-        start_date: "2026-06"
-        end_date: "2026-07"
-      - name: Leila Ohashi and Marcus Michaud
-        summary: NSF-funded Young Scholars Program (YSP), Northeastern University
-        start_date: "2025-06"
-        end_date: "2025-07"
-      - name: Maya Amit
-        summary: Northeastern Co-op program; currently a graduate student at NYU
-        start_date: "2024"
-        end_date: "2025"
+      - bullet: "**2025&ndash;present** &mdash; Adam Field (undergraduate, Worcester Polytechnic Institute): neural-network-based shear estimation (ShearNet)"
+      - bullet: "**Jun&ndash;Jul 2026** &mdash; Karuna Tarafdar and Adam Aoua, NSF-funded Young Scholars Program (YSP), Northeastern University"
+      - bullet: "**Jun&ndash;Jul 2025** &mdash; Leila Ohashi and Marcus Michaud, NSF-funded Young Scholars Program (YSP), Northeastern University"
+      - bullet: "**2024&ndash;2025** &mdash; Maya Amit, Northeastern Co-op program; currently a graduate student at NYU"
