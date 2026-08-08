@@ -44,11 +44,15 @@ layout: default
   .cv .list-group-item {
     list-style: none;
   }
-  /* Browser default <ul> padding-inline-start (~40px) is never reset here (no Bootstrap
-     compat loaded), so each entry's content -- and its border-bottom divider -- is inset
-     from the left but flush on the right. Remove it so the divider is symmetric. */
-  .cv ul.list-group {
-    padding-left: 0;
+  /* Browser default <ul> padding-inline-start (40px) is never reset here (no Bootstrap
+     compat loaded), so each entry's border-bottom divider -- which is on the <li>, inside
+     that padding -- starts 40px in from the left but runs flush to the right. Content
+     should stay exactly where it is, so don't touch the ul's padding; instead pull the li
+     out to the left by the same 40px (margin-left) and add it back as padding, which
+     cancels out for the content but lets the border extend the full width. */
+  .cv .list-group-item {
+    margin-left: -40px;
+    padding-left: 40px;
   }
   /* al_folio_core's .date-column shifts its content up 5px (translateY(-5px)), which made
      sense against the old vertically-centered layout but now leaves the badge sitting flush
