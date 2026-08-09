@@ -16,7 +16,7 @@ Alongside my research, I hold a deep passion for science outreach. Fostering an 
     {% include figure.liquid path="assets/img/outreach/ysp_students_2025.JPG" title="Young Scholars Program 2025" caption="With Leila Ohashi and Marcus Michaud, the students I mentored through YSP 2025." class="img-fluid rounded z-depth-1" %}
   </div>
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/outreach/ysp_presentation_20226.JPG" title="Young Scholars Program 2026" caption="Karuna Tarafdar and Adam Aoua, YSP 2026, presenting their project on dark matter mass maps from stratospheric balloon observations." class="img-fluid rounded z-depth-1" %}
+    {% include figure.liquid path="assets/img/outreach/ysp_presentation_20226.JPG" title="Young Scholars Program 2026" caption="Karuna Tarafdar and Adam Aoua, YSP 2026, presenting their project." class="img-fluid rounded z-depth-1" %}
   </div>
 </div>
 
