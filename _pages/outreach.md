@@ -7,7 +7,7 @@ nav: true
 nav_order: 4
 ---
 
-Alongside my research, I hold a deep passion for science outreach. Fostering an appreciation and understanding of science among school children brings me immense joy and satisfaction.
+Alongside my research, I enjoy opportunities for science outreach. I find it especially rewarding to help young students develop an interest in science and gain confidence in exploring it for themselves.
 
 1. During my postdoc, I mentored high-school students through Northeastern's [Young Scholars Program](https://stem.northeastern.edu/summer/ysp/) on two occasions, taking students with essentially no prior experience in Python or astronomy to completed research projects within six weeks.
 
@@ -21,11 +21,10 @@ Alongside my research, I hold a deep passion for science outreach. Fostering an 
 </div>
 
 During my PhD in India, I have been actively involved in outreach activities.
-1. I have particitipated in nation-wide celebrated National Science day (NSD) at [Raman Research Institute's](https://www.rri.res.in/) (RRI), 28 February, 2024
-2. I had the honor of being invited as a judge for the [National Children's Science Congress](http://www.ncsc.co.in/) (NCSC) 2023, Regional level, in Bengaluru. 
-3. I have also delivered a public talk, "The Universe in Your Pocket," at the Raman Research Institute's (RRI) outreach program for school children
+1. I participated in the National Science Day celebrations at the [Raman Research Institute's](https://www.rri.res.in/) (RRI) in February 2024.
+2. I served as a regional-level judge for [National Children's Science Congress](http://www.ncsc.co.in/) (NCSC) in Bengaluru in 2023.
+3. I have also delivered a public talk, "The Universe in Your Pocket," at the Raman Research Institute's (RRI) outreach program for school children.
 4. In January 2024, I was part of the RRI team at the India International Science Festival (IISF) in Faridabad, Haryana &mdash; an opportunity to engage with the public and with school and college students on astrophysics and cosmology. RRI was honored with the "Best Conceptual Pavilion" award.
-
 
 <div class="row">
   <div class="col-sm mt-3 mt-md-0">
