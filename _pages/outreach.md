@@ -16,6 +16,10 @@ nav_order: 4
     height: 320px;
     width: 100%;
     object-fit: cover;
+    /* The portrait YSP 2025 photo is much narrower than the fixed-height box, so cover
+       has to crop a lot vertically; centering that crop (the default) cut into people's
+       heads. Anchor to the top instead, so only the bottom (legs/floor) gets trimmed. */
+    object-position: top;
   }
 </style>
 
