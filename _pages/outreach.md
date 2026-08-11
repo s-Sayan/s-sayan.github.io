@@ -7,6 +7,18 @@ nav: true
 nav_order: 4
 ---
 
+<style>
+  /* Photos in a row can have very different aspect ratios (e.g. a portrait group photo
+     next to a landscape presentation shot), which left rows visibly uneven -- one image
+     much taller than the other, with captions landing at different heights. Crop every
+     photo to the same height instead so each row lines up. */
+  .row .col-sm img {
+    height: 320px;
+    width: 100%;
+    object-fit: cover;
+  }
+</style>
+
 Alongside my research, I enjoy opportunities for science outreach. I find it especially rewarding to help young students develop an interest in science and gain confidence in exploring it for themselves.
 
 1. During my postdoc, I mentored high-school students through Northeastern's [Young Scholars Program](https://stem.northeastern.edu/summer/ysp/) on two occasions, taking students with essentially no prior experience in Python or astronomy to completed research projects within six weeks.
