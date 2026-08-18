@@ -65,7 +65,7 @@
 <div class="app">
   <header>
     <h1>Field-of-View Comparison</h1>
-    <div class="sub">Roman WFI (SIAF/pysiaf) &middot; SuperBIT &middot; Euclid VIS &middot; HST WFC3/IR &middot; JWST NIRCam &middot; Rubin LSSTCam &mdash; all co-pointed at the same field centre; the view auto-scales to whatever is toggled on</div>
+    <div class="sub">Roman WFI &middot; SuperBIT &middot; Euclid VIS &middot; HST WFC3/IR &middot; JWST NIRCam &middot; Rubin LSSTCam &mdash; all co-pointed at the same field centre; the view auto-scales to whatever is toggled on</div>
   </header>
 
   <main>
@@ -77,10 +77,10 @@
   <aside id="controls"></aside>
 
   <footer>
-    Roman WFI detector layout derived from the official Roman Space Telescope SIAF via
-    <a href="https://pysiaf.readthedocs.io/">pysiaf</a> (precomputed and bundled as static data &mdash;
-    no external requests). Other instrument footprints are simple rectangle/circle approximations of published FOV specs.
-    HST/JWST are offset to the side purely for visibility, not to indicate relative sky position.
+    Roman WFI detector layout matches the official as-flown focal-plane geometry (precomputed and bundled as
+    static data &mdash; no external requests). Other instrument footprints are simple rectangle/circle
+    approximations of published FOV specs. HST/JWST are offset to the side purely for visibility, not to
+    indicate relative sky position.
   </footer>
 </div>
 
@@ -134,7 +134,7 @@ const LSST_EXTENT = 5 * (3 * 13.33 + 2 * 0.08 + 0.30); // ~202'
 const INSTRUMENTS = {
   roman: {
     name: 'Roman WFI', color: '#4fc3f7', fill: '#0d3b66',
-    fov: `18 &times; ${ROMAN.sca_side_arcmin.toFixed(2)}' &times; ${ROMAN.sca_side_arcmin.toFixed(2)}'  (SIAF)`,
+    fov: `18 &times; ${ROMAN.sca_side_arcmin.toFixed(2)}' &times; ${ROMAN.sca_side_arcmin.toFixed(2)}'`,
     extent: () => ROMAN.sca_side_arcmin * 3 + 4, // rough half-extent for autofit
   },
   superbit: {
