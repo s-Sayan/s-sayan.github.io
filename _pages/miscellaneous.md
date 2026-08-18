@@ -14,3 +14,7 @@ nav_order: 6
 3. An interactive website to show different discretisation schemes for solving Hamiltonian equations for a simple harmonic oscillator: [here](https://s-sayan.github.io/misc/hamiltonian_integrators.html)
 
 4. An interactive website to show sampling from several 2D distributions using random-walk Metropolis-Hastings and Hamiltonian Monte Carlo (HMC) methods (a comparison): [here](https://s-sayan.github.io/misc/mh_vs_hmc.html)
+
+5. An interactive tool to compare filter/bandpass transmission curves across SuperBIT, Roman WFI, Euclid (VIS/NISP), and Rubin LSST: [here](https://s-sayan.github.io/misc/filters.html)
+
+6. An interactive tool to compare the fields of view of SuperBIT, Roman WFI (real detector layout from the official SIAF via `pysiaf`), Euclid VIS, HST WFC3/IR, JWST NIRCam, and Rubin LSSTCam: [here](https://s-sayan.github.io/misc/fov_compare.html)
