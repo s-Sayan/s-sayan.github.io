@@ -10,9 +10,13 @@
 <style>
   :root{
     --bg:#07070f; --panel:#0f1420; --panel-2:#0c1119; --line:#1e2836;
-    --ink:#e7edf6; --muted:#8aa0b8; --accent:#5eead4; --accent2:#fbbf24;
+    --ink:#e7edf6; --muted:#8aa0b8; --accent:#5eead4; --accent2:#fbbf24; --axis:#33475b;
     --mono:'DM Mono','Space Mono',ui-monospace,Menlo,Consolas,monospace;
     --sans:'DM Sans',system-ui,sans-serif;
+  }
+  body[data-theme="light"]{
+    --bg:#eef1f6; --panel:#ffffff; --panel-2:#f4f6f9; --line:#d7dee6;
+    --ink:#10151c; --muted:#5b6b7c; --accent:#0d9488; --accent2:#b45309; --axis:#475569;
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
@@ -23,14 +27,24 @@
       var(--bg);
     color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased;
   }
+  body[data-theme="light"]{ background: var(--bg); }
   .app{ display:grid; grid-template-columns:1fr 300px; grid-template-rows:auto 1fr auto; min-height:100vh; }
   header{
     grid-column:1/-1; padding:18px 24px 6px; border-bottom:1px solid var(--line);
+    display:flex; align-items:flex-start; gap:16px;
   }
+  header .htxt{ flex:1; }
   header h1{
     font-family:'Space Mono',monospace; font-size:20px; margin:0; letter-spacing:-.2px; color:var(--ink);
   }
   header .sub{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:4px; }
+  .seg{ display:flex; gap:6px; flex-wrap:wrap; flex:none; }
+  .seg button{
+    font-family:var(--mono); font-size:11.5px; color:var(--ink);
+    background:rgba(127,127,127,.08); border:1px solid var(--line); border-radius:7px;
+    padding:6px 10px; cursor:pointer;
+  }
+  .seg button.active{ border-color:var(--accent); color:var(--accent); background:rgba(94,234,212,.12); }
   main{ grid-column:1; grid-row:2; padding:10px 8px 10px 20px; min-width:0; }
   .plot-card{
     background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px;
@@ -41,7 +55,7 @@
   .axis-label{ font-family:var(--mono); font-size:12px; fill:var(--muted); }
   .tick-label{ font-family:var(--mono); font-size:11px; fill:var(--muted); }
   .grid-line{ stroke:var(--line); stroke-width:1; }
-  .axis-line{ stroke:#33475b; stroke-width:1.2; }
+  .axis-line{ stroke:var(--axis); stroke-width:1.2; }
   .empty-msg{ font-family:var(--mono); fill:var(--muted); font-size:13px; }
   #legend{
     display:flex; flex-wrap:wrap; gap:10px 16px; padding:10px 4px 2px;
@@ -86,8 +100,14 @@
 <body>
 <div class="app">
   <header>
-    <h1>Filter &amp; Bandpass Comparison</h1>
-    <div class="sub">SuperBIT &middot; Roman WFI &middot; Euclid VIS/NISP &middot; Rubin LSST &mdash; toggle any combination below</div>
+    <div class="htxt">
+      <h1>Filter &amp; Bandpass Comparison</h1>
+      <div class="sub">SuperBIT &middot; Roman WFI &middot; Euclid VIS/NISP &middot; Rubin LSST &mdash; toggle any combination below</div>
+    </div>
+    <div class="seg" id="theme-seg">
+      <button data-theme="dark">Dark</button>
+      <button data-theme="light">Light</button>
+    </div>
   </header>
 
   <main>
@@ -302,6 +322,27 @@ function render() {
     legend.appendChild(chip);
   }
 }
+
+function setSegActive(containerId, attr, value) {
+  document.querySelectorAll('#' + containerId + ' button').forEach(b => {
+    b.classList.toggle('active', b.dataset[attr] === value);
+  });
+}
+let theme = 'dark';
+try {
+  const saved = localStorage.getItem('misc-tool-theme');
+  if (saved === 'light' || saved === 'dark') theme = saved;
+} catch (e) {}
+document.body.dataset.theme = theme;
+setSegActive('theme-seg', 'theme', theme);
+document.querySelectorAll('#theme-seg button').forEach(b => {
+  b.addEventListener('click', () => {
+    theme = b.dataset.theme;
+    document.body.dataset.theme = theme;
+    setSegActive('theme-seg', 'theme', theme);
+    try { localStorage.setItem('misc-tool-theme', theme); } catch (e) {}
+  });
+});
 
 buildControls();
 render();
