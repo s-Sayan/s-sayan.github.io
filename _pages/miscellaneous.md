@@ -11,7 +11,7 @@ nav_order: 6
 
 2. An interactive tool to compare the fields of view of SuperBIT, Roman WFI, Euclid VIS, HST WFC3/IR, JWST NIRCam, and Rubin LSSTCam: [here](https://s-sayan.github.io/misc/fov_compare.html)
 
-3. An interactive tool to plot cluster/survey target catalogues on a Mollweide sky map, with Roman HLWAS, Euclid Wide Survey, Rubin LSST WFD, DES Y6, and HSC Y3 footprint overlays, in equatorial or galactic coordinates: [here](https://s-sayan.github.io/misc/survey_footprint.html)
+3. A python tool to plot cluster/survey target catalogues on a Mollweide sky map, with Roman HLWAS, Euclid Wide Survey, Rubin LSST WFD, DES Y6, and HSC Y3 footprint overlays, in equatorial or galactic coordinates: [here](https://github.com/superbit-collaboration/sky-footprint)
 
 4. A tutorial notebook on how to implement Hamiltonian Monte Carlo (HMC) sampling in Python, with a simple example of parameter estimation for a linear model. The notebook can be found [here](https://github.com/s-Sayan/CosmoHMC/blob/main/examples/tutorials/bayesian_linear_regression_mcmc_final.ipynb)
 
