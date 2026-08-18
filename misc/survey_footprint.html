@@ -475,7 +475,12 @@ function render() {
   ctx.fillStyle = isLight ? '#dfe7ef' : '#05070c';
   ctx.fillRect(cx - HALF_W * scale, cy - HALF_H * scale, 2 * HALF_W * scale, 2 * HALF_H * scale);
 
-  const nx = 320, ny = 160;
+  // Raster resolution matched (up to a cap) to the actual device-pixel size of
+  // the ellipse, so no scaling/interpolation is needed afterwards -- upscaling
+  // a much-lower-res raster with bilinear smoothing was creating a dashed
+  // moire fringe right at sharp footprint-coverage boundaries.
+  const nx = Math.min(1100, Math.max(320, Math.round(2 * HALF_W * scale * dpr)));
+  const ny = Math.round(nx / 2);
   const off = document.createElement('canvas');
   off.width = nx; off.height = ny;
   const octx = off.getContext('2d');
