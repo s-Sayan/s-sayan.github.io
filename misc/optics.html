@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Focal length and field of view: lenses and two-mirror telescopes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#F5F7FA; --panel:#FFFFFF; --ink:#18202B; --ink-2:#4F5A69; --rule:#D9DEE5;
+  --ray:#178F6B; --equiv:#6157D1; --focus:#D0552C; --lens:#2F7FD0; --sky:#1F2329;
+  --star:#F1EFE8; --gal:250,199,117;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme: dark;
+    --bg:#12161C; --panel:#1A2029; --ink:#E6EAF0; --ink-2:#9AA5B4; --rule:#2C3542;
+    --ray:#3FC79A; --equiv:#9A92F0; --focus:#F07A4F; --lens:#6AAEF0; --sky:#0B0E12; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.6}
+main{max-width:780px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:34px;line-height:1.15;font-weight:600;margin:0 0 12px;letter-spacing:-0.01em}
+h2{font-size:24px;font-weight:600;margin:64px 0 8px;padding-top:24px;border-top:1px solid var(--rule)}
+p{margin:0 0 14px;max-width:68ch}
+.lede{color:var(--ink-2);font-size:19px}
+.eq{font-family:var(--serif);font-style:italic;font-size:19px;margin:8px 0 16px;padding-left:16px;border-left:3px solid var(--rule)}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:18px 18px 14px;margin:20px 0 8px;font-family:var(--sans);font-size:14px}
+.controls{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px 14px;align-items:center;margin-bottom:16px}
+.controls label{color:var(--ink-2)}
+.controls output{font-weight:500;min-width:74px;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--lens)}
+button{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:6px;padding:6px 14px;cursor:pointer}
+button:hover{border-color:var(--ink-2)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--lens);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:16px}
+.stat{border-left:3px solid var(--rule);padding:2px 10px}
+.stat span{display:block;color:var(--ink-2);font-size:12.5px}
+.stat b{font-weight:500;font-size:19px;font-variant-numeric:tabular-nums}
+.cap{color:var(--ink-2);font-size:13px;margin:14px 0 4px}
+svg,canvas{display:block;width:100%;height:auto}
+ul{max-width:68ch;padding-left:22px}
+li{margin-bottom:8px}
+footer{margin-top:56px;color:var(--ink-2);font-size:14px;font-family:var(--sans)}
+@media (max-width:560px){ .controls{grid-template-columns:1fr auto} .controls label{grid-column:1 / -1;margin-bottom:-6px} h1{font-size:28px} }
+</style>
+</head>
+<body>
+<main>
+<h1>Focal length and field of view</h1>
+<p class="lede">How the distance between the optics and a fixed-size detector sets both how much sky you see and how large it looks, first for a single lens and then for a two-mirror telescope.</p>
+
+<h2>A single lens</h2>
+<p>The sensor has a fixed size. Changing the focal length moves it closer to or farther from the lens. Trace a ray from each edge of the sensor back through the center of the lens: the angle between those rays is the field of view.</p>
+<p class="eq">FOV = 2 · arctan(d / 2f)</p>
+<p>A short focal length puts the sensor close, so it accepts a wide cone and each object covers few pixels. A long focal length puts it far back, so the same pixels share a narrow patch of sky and each object covers more of them. Field of view and magnification are the same geometry seen from two sides.</p>
+
+<div class="panel" id="lensPanel">
+  <div class="controls">
+    <label for="fl">Focal length</label>
+    <input type="range" id="fl" min="18" max="200" step="1" value="35">
+    <output id="flo">35 mm</output>
+  </div>
+  <div style="margin:-6px 0 14px"><button id="play" type="button" aria-label="Play animation">Play sweep</button></div>
+  <div class="stats">
+    <div class="stat"><span>Field of view (vertical)</span><b id="m1">–</b></div>
+    <div class="stat"><span>Image scale vs 50 mm</span><b id="m2">–</b></div>
+    <div class="stat"><span>Plate scale</span><b id="m3">–</b></div>
+  </div>
+  <div class="cap">Side view: lens and 24 mm sensor</div>
+  <svg id="dg" viewBox="0 0 680 230" role="img" aria-label="Lens and sensor ray diagram"></svg>
+  <div class="cap">What the sensor records (same sky, same sensor)</div>
+  <canvas id="sk" aria-label="Simulated sky image"></canvas>
+</div>
+<p>Plate scale is 206265 / f arcseconds per unit length on the focal plane, with f in the same units. Doubling f halves the arcseconds per pixel.</p>
+
+<h2>A two-mirror telescope</h2>
+<p>The concave primary alone would focus light at its focal length f₁, the prime focus. The convex secondary intercepts the converging beam before it gets there and slows its convergence, so the beam comes to focus much farther away, behind a hole in the primary. Treating the prime focus as a virtual object for the secondary:</p>
+<p class="eq">p = f₁ − d, &nbsp; s = d + b, &nbsp; m = s / p, &nbsp; F = m · f₁</p>
+<p>Here d is the mirror separation, b the distance of the final focus behind the primary, m the secondary magnification, and F the effective focal length. Extend the final converging ray backward until it meets the incoming ray at its original height: the crossing point lies a distance F in front of the focus. A single lens placed there would give the same cone and the same image scale, so to the detector the folded telescope is indistinguishable from a long refractor.</p>
+
+<div class="panel">
+  <div class="controls">
+    <label for="sd">Mirror separation</label>
+    <input type="range" id="sd" min="900" max="1300" step="10" value="1100">
+    <output id="sdo">1100 mm</output>
+    <label for="sb">Focus behind primary</label>
+    <input type="range" id="sb" min="150" max="450" step="10" value="300">
+    <output id="sbo">300 mm</output>
+    <label for="ss">Detector size (square)</label>
+    <input type="range" id="ss" min="10" max="60" step="2" value="30">
+    <output id="sso">30 mm</output>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>Secondary magnification m</span><b id="k1">–</b></div>
+    <div class="stat"><span>Effective focal length F</span><b id="k2">–</b></div>
+    <div class="stat"><span>Plate scale</span><b id="k3">–</b></div>
+    <div class="stat"><span>Field of view (side)</span><b id="k4">–</b></div>
+    <div class="stat"><span>Sky area vs prime focus</span><b id="k7">–</b></div>
+    <div class="stat"><span>Secondary / primary diameter</span><b id="k5">–</b></div>
+    <div class="stat"><span>Focus shift per mm of secondary</span><b id="k6">–</b></div>
+  </div>
+  <div class="cap">The real telescope, to scale (500 mm f/3 primary, f₁ = 1500 mm)</div>
+  <svg id="s1" viewBox="0 0 680 250" role="img" aria-label="Two-mirror telescope ray diagram"></svg>
+  <div class="cap">Same system unfolded: an equivalent single lens at distance F from the focus (vertical scale exaggerated)</div>
+  <svg id="s2" viewBox="0 0 680 210" role="img" aria-label="Equivalent single lens diagram"></svg>
+  <div class="cap">Same detector, same sky: what it records at prime focus and behind the secondary</div>
+  <svg id="s3" viewBox="0 0 680 370" role="img" aria-label="Sky field comparison"></svg>
+</div>
+
+<p>Everything from the single lens carries over with f replaced by F: plate scale is 206265 / F and FOV ≈ detector size × plate scale. The secondary multiplies the focal length by m, so each side of the field shrinks by 1/m and the sky area by 1/m², while objects grow by m on the detector. The detector size sets how much focal plane you collect; the optics set how many arcseconds land on each millimetre.</p>
+<ul>
+  <li><strong>Secondary size.</strong> A larger m, with the secondary closer to the prime focus, needs a smaller secondary because the beam is narrower there.</li>
+  <li><strong>Focus sensitivity.</strong> The final focus moves by about m² + 1 times any motion of the secondary. At m ≈ 4, a 10 µm despace moves focus by about 170 µm, which is why thermal changes in separation matter and why focus is usually adjusted at the secondary.</li>
+  <li><strong>What this leaves out.</strong> These are paraxial numbers. Off-axis aberrations such as coma and field curvature limit the usable field of a two-mirror design; Ritchey–Chrétien hyperboloids or a corrector recover image quality across the field without changing F or the plate scale.</li>
+</ul>
+<footer>Simulated sky fields use random stars and galaxies for illustration. Geometry is paraxial.</footer>
+</main>
+
+<script>
+(function(){
+var D2R=Math.PI/180;
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function P(pts){return 'M'+pts.map(function(q){return q[0].toFixed(1)+' '+q[1].toFixed(1);}).join(' L');}
+function L(pts,col,lw,dash){return '<path d="'+P(pts)+'" style="fill:none;stroke:'+col+';stroke-width:'+lw+(dash?';stroke-dasharray:'+dash:'')+'"/>';}
+function T(x,y,s,col,anc){return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" text-anchor="'+(anc||'middle')+'" style="fill:'+col+';font-family:var(--sans);font-size:12px">'+s+'</text>';}
+var C={ray:'var(--ray)',eq:'var(--equiv)',foc:'var(--focus)',lens:'var(--lens)',tc:'var(--ink-2)',tp:'var(--ink)'};
+
+/* ---------- Part 1: single lens ---------- */
+var sl=document.getElementById('fl'),flo=document.getElementById('flo'),pb=document.getElementById('play');
+var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+var stars1=[];for(var i=0;i<650;i++)stars1.push({ax:(rnd()*2-1)*50,ay:(rnd()*2-1)*40,m:rnd()});
+var gals1=[];for(var i=0;i<40;i++)gals1.push({ax:(rnd()*2-1)*48,ay:(rnd()*2-1)*38,s:0.4+rnd()*1.6,q:0.35+rnd()*0.6,pa:rnd()*Math.PI});
+var skc=document.getElementById('sk'),sctx,sw,shh;
+function setupSky(){var w=skc.parentElement.clientWidth-36;if(w<200)w=200;var fw=Math.min(w,480);var dpr=window.devicePixelRatio||1;
+  skc.width=fw*dpr;skc.height=fw*2/3*dpr;skc.style.width=fw+'px';skc.style.height=(fw*2/3)+'px';sctx=skc.getContext('2d');sctx.setTransform(dpr,0,0,dpr,0,0);sw=fw;shh=fw*2/3;}
+function drawDiagram(f){var W=680,cy=110,o='';
+  var lx=130,sc=(W-lx-30)/200,sx=lx+f*sc,hp=12*sc,k=hp/(f*sc),yl=k*lx;
+  o+='<path d="'+P([[0,cy-yl],[lx,cy],[0,cy+yl]])+' Z" style="fill:var(--equiv);opacity:0.16"/>';
+  o+='<path d="'+P([[lx,cy],[sx,cy-hp],[sx,cy+hp]])+' Z" style="fill:var(--equiv);opacity:0.16"/>';
+  o+=L([[sx,cy-hp],[lx,cy],[0,cy+yl]],C.eq,1.5)+L([[sx,cy+hp],[lx,cy],[0,cy-yl]],C.eq,1.5);
+  o+=L([[0,cy],[W,cy]],C.tc,0.8,'3 4');
+  var half=Math.atan(12/f),r=42;
+  o+='<path d="M'+(lx-r*Math.cos(half)).toFixed(1)+' '+(cy-r*Math.sin(half)).toFixed(1)+' A'+r+' '+r+' 0 0 0 '+(lx-r*Math.cos(half)).toFixed(1)+' '+(cy+r*Math.sin(half)).toFixed(1)+'" style="fill:none;stroke:var(--focus);stroke-width:1.5"/>';
+  o+=T(lx-50,cy-6,'FOV '+(2*half/D2R).toFixed(1)+'°',C.foc,'end');
+  o+='<ellipse cx="'+lx+'" cy="'+cy+'" rx="7" ry="70" style="fill:none;stroke:var(--lens);stroke-width:2"/>';
+  o+=T(lx,cy-80,'lens',C.tc);
+  o+=L([[sx,cy-hp],[sx,cy+hp]],C.tp,4)+T(Math.min(sx,652),cy-hp-10,'sensor',C.tc);
+  var by=cy+92;o+=L([[lx,by],[sx,by]],C.tc,1)+L([[lx,by-5],[lx,by+5]],C.tc,1)+L([[sx,by-5],[sx,by+5]],C.tc,1);
+  o+=T((lx+sx)/2,by+18,'f = '+Math.round(f)+' mm',C.tc)+T(6,16,'scene',C.tc,'start');
+  document.getElementById('dg').innerHTML=o;}
+function drawSky(f){var x=sctx,W=sw,H=shh;x.clearRect(0,0,W,H);x.fillStyle=css('--sky')||'#1F2329';x.fillRect(0,0,W,H);
+  var cx=W/2,cy=H/2,sxp=W/2/18,syp=H/2/12;
+  gals1.forEach(function(g){var px=cx+f*Math.tan(g.ax*D2R)*sxp,py=cy+f*Math.tan(g.ay*D2R)*syp,r=f*Math.tan(g.s*D2R)*sxp;if(px<-r||px>W+r||py<-r||py>H+r)return;
+    x.fillStyle='rgba(250,199,117,0.55)';x.beginPath();x.ellipse(px,py,Math.max(r,0.8),Math.max(r*g.q,0.6),g.pa,0,2*Math.PI);x.fill();
+    x.fillStyle='rgba(250,238,218,0.85)';x.beginPath();x.ellipse(px,py,Math.max(r*0.3,0.6),Math.max(r*0.3*g.q,0.5),g.pa,0,2*Math.PI);x.fill();});
+  x.fillStyle='#F1EFE8';stars1.forEach(function(s){var px=cx+f*Math.tan(s.ax*D2R)*sxp,py=cy+f*Math.tan(s.ay*D2R)*syp;if(px<0||px>W||py<0||py>H)return;
+    x.globalAlpha=0.4+0.6*s.m;x.beginPath();x.arc(px,py,0.6+1.2*s.m,0,2*Math.PI);x.fill();});x.globalAlpha=1;}
+function update1(f){flo.textContent=Math.round(f)+' mm';
+  document.getElementById('m1').textContent=(2*Math.atan(12/f)/D2R).toFixed(1)+'°';
+  document.getElementById('m2').textContent=(f/50).toFixed(2)+'×';
+  document.getElementById('m3').textContent=Math.round(3437.75/f)+' ′/mm';
+  drawDiagram(f);drawSky(f);}
+var playing=false,t0=null,raf=null,PER=2200;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function step(ts){var ph=0.5-0.5*Math.cos((ts-t0)/PER);var f=18*Math.pow(200/18,ph);sl.value=Math.round(f);update1(f);raf=requestAnimationFrame(step);}
+pb.addEventListener('click',function(){playing=!playing;
+  if(playing){var p=Math.log(sl.value/18)/Math.log(200/18);t0=performance.now()-Math.acos(Math.max(-1,Math.min(1,1-2*p)))*PER;raf=requestAnimationFrame(step);pb.textContent='Pause';pb.setAttribute('aria-label','Pause animation');}
+  else{cancelAnimationFrame(raf);pb.textContent='Play sweep';pb.setAttribute('aria-label','Play animation');}});
+if(reduce)PER=4000;
+sl.addEventListener('input',function(){if(playing)pb.click();update1(+sl.value);});
+
+/* ---------- Part 2: two-mirror telescope ---------- */
+var f1=1500,h=250;
+function calc(d,b){var p=f1-d,s=d+b,m=s/p,F=m*f1;return {d:d,b:b,p:p,s:s,m:m,F:F,y2:h*p/f1,R2:2*p*s/(s-p),xpp:b-F};}
+seed=11;
+var stars=[],gals=[];for(var i=0;i<1300;i++)stars.push([(rnd()*2-1)*70,(rnd()*2-1)*70,rnd()]);
+for(var j=0;j<160;j++)gals.push([(rnd()*2-1)*70,(rnd()*2-1)*70,0.25+rnd()*1.1,0.35+rnd()*0.6,rnd()*180]);
+function top(g){var W=680,cy=118,pad=12,xmin=-1650,xmax=500,sc=(W-2*pad)/(xmax-xmin);
+  function X(v){return pad+(v-xmin)*sc;}function Y(v){return cy-v*sc;}
+  var o='',hole=g.y2*g.b/(g.d+g.b)*1.2;
+  o+='<rect x="'+X(-g.d-60).toFixed(1)+'" y="'+Y(h*1.14).toFixed(1)+'" width="'+(X(0)-X(-g.d-60)).toFixed(1)+'" height="'+(2*h*1.14*sc).toFixed(1)+'" style="fill:var(--ink-2);opacity:0.08"/>';
+  o+=L([[X(xmin),cy],[X(xmax),cy]],C.tc,0.8,'3 4');
+  [1,0.55,-0.55,-1].forEach(function(f){var yy=f*h,ys=yy*g.p/f1;
+    o+=L([[X(xmin),Y(yy)],[X(0),Y(yy)],[X(-g.d),Y(ys)],[X(g.b),Y(0)]],C.ray,1.4);
+    o+=L([[X(-g.d),Y(ys)],[X(-f1),Y(0)]],C.ray,1,'2 4');});
+  [1,-1].forEach(function(sg){var pts=[];for(var y=hole;y<=h*1.06;y+=4){pts.push([X(-y*y/(4*f1)),Y(sg*y)]);}o+=L(pts,C.tp,3);});
+  var sp=[];for(var y=-g.y2*1.08;y<=g.y2*1.08+0.01;y+=2){sp.push([X(-g.d-y*y/(2*g.R2)),Y(y)]);}o+=L(sp,C.tp,3);
+  o+=L([[X(g.b),Y(40)],[X(g.b),Y(-40)]],C.tp,3);
+  o+='<circle cx="'+X(g.b).toFixed(1)+'" cy="'+cy+'" r="4" style="fill:var(--focus)"/>';
+  o+='<circle cx="'+X(-f1).toFixed(1)+'" cy="'+cy+'" r="4" style="fill:none;stroke:var(--focus);stroke-width:1.5"/>';
+  o+=T(X(0),Y(h*1.06)-8,'primary',C.tc)+T(X(-g.d),Y(g.y2*1.08)-8,'secondary',C.tc);
+  o+=T(X(-f1)+30,cy+22,'prime focus (never reached)',C.foc)+T(Math.min(X(g.b),646),Y(-40)+16,'final focus',C.foc);
+  var by=Y(-h)+30;o+=L([[X(-g.d),by],[X(0),by]],C.tc,1)+T(X(-g.d/2),by+16,'tube ≈ '+(g.d/1000).toFixed(2)+' m',C.tc);
+  document.getElementById('s1').innerHTML=o;}
+function bot(g){var W=680,cy=92,pad=12,xmin=-13300,xmax=650,sc=(W-2*pad)/(xmax-xmin),vs=55/h;
+  function X(v){return pad+(v-xmin)*sc;}function Y(v){return cy-v*vs;}
+  var o=L([[X(xmin),cy],[X(xmax),cy]],C.tc,0.8,'3 4');
+  o+='<rect x="'+X(-g.d).toFixed(1)+'" y="'+Y(h*1.14).toFixed(1)+'" width="'+Math.max(X(0)-X(-g.d),2).toFixed(1)+'" height="'+(2*h*1.14*vs).toFixed(1)+'" style="fill:var(--ink-2);opacity:0.2"/>';
+  [1,-1].forEach(function(f){var yy=f*h,ys=yy*g.p/f1;
+    o+=L([[X(xmin),Y(yy)],[X(0),Y(yy)],[X(-g.d),Y(ys)],[X(g.b),Y(0)]],C.ray,1.4);
+    o+=L([[X(g.xpp),Y(yy)],[X(g.b),Y(0)]],C.eq,1.5,'5 4');});
+  o+='<ellipse cx="'+X(g.xpp).toFixed(1)+'" cy="'+cy+'" rx="6" ry="'+(h*vs*1.25).toFixed(1)+'" style="fill:none;stroke:var(--equiv);stroke-width:2"/>';
+  o+='<circle cx="'+X(g.b).toFixed(1)+'" cy="'+cy+'" r="4" style="fill:var(--focus)"/>';
+  o+=T(X(g.xpp),Y(h*1.25)-8,'equivalent lens',C.eq)+T(X(-g.d/2),Y(h*1.14)-8,'telescope',C.tc);
+  var by=Y(-h*1.25)+26;o+=L([[X(g.xpp),by],[X(g.b),by]],C.tc,1)+L([[X(g.xpp),by-5],[X(g.xpp),by+5]],C.tc,1)+L([[X(g.b),by-5],[X(g.b),by+5]],C.tc,1);
+  o+=T((X(g.xpp)+X(g.b))/2,by+17,'F = '+(g.F/1000).toFixed(2)+' m',C.tc);
+  document.getElementById('s2').innerHTML=o;}
+function field(x0,y0,S,half){var o='<rect x="'+x0+'" y="'+y0+'" width="'+S+'" height="'+S+'" style="fill:var(--sky)"/>';var k=S/(2*half),cx=x0+S/2,cy=y0+S/2;
+  gals.forEach(function(q){if(Math.abs(q[0])>half+2||Math.abs(q[1])>half+2)return;var r=q[2]*k,px=cx+q[0]*k,py=cy+q[1]*k;if(px<x0||px>x0+S||py<y0||py>y0+S)return;
+    o+='<ellipse cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" rx="'+Math.max(r,0.8).toFixed(1)+'" ry="'+Math.max(r*q[3],0.6).toFixed(1)+'" transform="rotate('+q[4].toFixed(0)+' '+px.toFixed(1)+' '+py.toFixed(1)+')" style="fill:rgba(250,199,117,0.6)"/>';});
+  stars.forEach(function(q){if(Math.abs(q[0])>half||Math.abs(q[1])>half)return;o+='<circle cx="'+(cx+q[0]*k).toFixed(1)+'" cy="'+(cy+q[1]*k).toFixed(1)+'" r="'+(0.6+1.3*q[2]).toFixed(1)+'" style="fill:#F1EFE8;opacity:'+(0.45+0.55*q[2]).toFixed(2)+'"/>';});
+  return o;}
+function nice(v){var c=[0.5,1,2,5,10,15,20,30];for(var i=c.length-1;i>=0;i--)if(c[i]<=v)return c[i];return 0.5;}
+function sky(g,s){var S=320,y0=8,xa=10,xb=350,o='';
+  var a1=Math.atan(s/2/f1)/D2R*60,a2=Math.atan(s/2/g.F)/D2R*60;
+  o+=field(xa,y0,S,a1);
+  var w=S*a2/a1;o+='<rect x="'+(xa+S/2-w/2).toFixed(1)+'" y="'+(y0+S/2-w/2).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+w.toFixed(1)+'" style="fill:none;stroke:var(--focus);stroke-width:1.5;stroke-dasharray:4 3"/>';
+  o+=field(xb,y0,S,a2);
+  o+='<rect x="'+xb+'" y="'+y0+'" width="'+S+'" height="'+S+'" style="fill:none;stroke:var(--focus);stroke-width:1.5"/>';
+  o+=L([[xa+S/2+w/2,y0+S/2-w/2],[xb,y0]],C.foc,0.8,'2 3')+L([[xa+S/2+w/2,y0+S/2+w/2],[xb,y0+S]],C.foc,0.8,'2 3');
+  [[xa,a1],[xb,a2]].forEach(function(z){var n=nice(2*z[1]/4),bl=S*n/(2*z[1]);o+=L([[z[0]+12,y0+S-12],[z[0]+12+bl,y0+S-12]],'#F1EFE8',2);
+    o+='<text x="'+(z[0]+12+bl/2).toFixed(1)+'" y="'+(y0+S-18)+'" text-anchor="middle" style="fill:#F1EFE8;font-family:var(--sans);font-size:11px">'+n+'′</text>';});
+  o+=T(xa+S/2,y0+S+18,'primary alone, f₁ = 1.5 m: '+(2*a1).toFixed(0)+'′ across',C.tc);
+  o+=T(xb+S/2,y0+S+18,'two-mirror, F = '+(g.F/1000).toFixed(2)+' m: '+(2*a2).toFixed(1)+'′ across',C.tc);
+  o+=T(xa+S/2,y0+S+34,'dashed box = what the two-mirror system keeps',C.foc);
+  document.getElementById('s3').innerHTML=o;return 2*a2;}
+function update2(){var d=+document.getElementById('sd').value,b=+document.getElementById('sb').value,s=+document.getElementById('ss').value;
+  document.getElementById('sdo').textContent=d+' mm';document.getElementById('sbo').textContent=b+' mm';document.getElementById('sso').textContent=s+' mm';
+  var g=calc(d,b);
+  document.getElementById('k1').textContent=g.m.toFixed(2)+'×';
+  document.getElementById('k2').textContent=(g.F/1000).toFixed(2)+' m (f/'+(g.F/500).toFixed(1)+')';
+  document.getElementById('k3').textContent=(206265/g.F).toFixed(1)+'″/mm';
+  document.getElementById('k5').textContent=(g.p/f1).toFixed(2);
+  document.getElementById('k6').textContent=(g.m*g.m+1).toFixed(1)+' mm';
+  document.getElementById('k7').textContent='1/'+(g.m*g.m).toFixed(1);
+  top(g);bot(g);document.getElementById('k4').textContent=sky(g,s).toFixed(1)+'′';}
+['sd','sb','ss'].forEach(function(id){document.getElementById(id).addEventListener('input',update2);});
+
+setupSky();update1(+sl.value);update2();
+window.addEventListener('resize',function(){setupSky();update1(+sl.value);});
+if(window.matchMedia)window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){update1(+sl.value);});
+})();
+</script>
+</body>
+</html>
