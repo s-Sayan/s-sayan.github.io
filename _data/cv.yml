@@ -16,9 +16,6 @@ cv:
         studyType: M.Sc.
         start_date: "2017"
         end_date: "2019"
-        highlights:
-          - "Analysed high-energy cosmic-ray air-shower data using machine learning and deep learning techniques"
-          - "Developed a Monte Carlo pipeline to simulate air showers for different primary species"
       - institution: Ramakrishna Mission Residential College, Narendrapur (University of Calcutta), India
         area: Physics
         studyType: B.Sc.
@@ -30,14 +27,16 @@ cv:
         position: Postdoctoral Research Associate
         start_date: "2024-10"
         end_date: now
+        highlights:
+          - "Postdoc Advisor: Prof. Jacqueline McCleary"
       - company: Raman Research Institute, Bengaluru, India
-        position: Visiting Researcher
+        position: Research Fellow (Exchange during PhD)
         start_date: "2023-09"
         end_date: "2024-09"
         highlights:
           - "Host: Prof. Tarun Souradeep"
       - company: Université de Genève, Geneva, Switzerland
-        position: Swiss Government Excellence Fellow
+        position: Swiss Government Excellence Fellow (Exchange during PhD)
         start_date: "2022-09"
         end_date: "2023-08"
         highlights:
@@ -48,14 +47,14 @@ cv:
         date: "2022-2023"
         awarder: Université de Genève / ESKAS No. 2022.0316
         summary: CHF 23,540 stipend + CHF 600 travel allowance.
-      - title: Grant, Future Science with CMB × LSS, YITP Kyoto
+      - title: Grant from the Société académique de Genève (SACAD)
         date: "2023"
         awarder: Société académique de Genève (SACAD)
-        summary: 2000 CHF.
+        summary: 2000 CHF, for conference travel.
       - title: Infosys Foundation Travel Award and Fellowship
         date: "2023"
         awarder: Infosys Foundation
-        summary: 50,000 INR, to attend Future Cosmology, IESC Cargèse.
+        summary: 50,000 INR, for conference travel.
       - title: Institute PhD Fellowship
         date: "2019"
         awarder: IISER Pune (MHRD)
@@ -71,6 +70,9 @@ cv:
         awarder: Ministry of Human Resource Development, Government of India
 
     Invited Talks:
+      - bullet: "**Oct 2026** &mdash; Seminar, Cosmology Journal Club, Duke University"
+      - bullet: "**Oct 2026** &mdash; Seminar, Galaxy Cluster Seminar, University of Michigan"
+      - bullet: "**Sep 2026** &mdash; Seminar, [BNL Seminar](https://indico.bnl.gov/event/33696/), Brookhaven National Laboratory"
       - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), [CCAPP Seminar](https://ccapp.osu.edu/events/ccapp-seminar-sayan-saha-northeastern), Ohio State University"
       - bullet: "**Apr 2026** &mdash; Inferences from the CMB & Balloons (seminar), CMB Lunch Talk, Lawrence Berkeley National Laboratory"
       - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), [KIPAC Tea Talk](https://kipac.stanford.edu/events/kipac-tea-talk/kipac-tea-mapping-dark-matter-stratosphere-first-its-kind-weak-lensing), Stanford University"
@@ -78,7 +80,8 @@ cv:
       - bullet: "**Apr 2026** &mdash; Mapping Dark Matter from the Stratosphere (seminar), Cosmology Journal Club, Caltech"
 
     Mentoring:
-      - bullet: "**2025&ndash;present** &mdash; Adam Field (undergraduate, Worcester Polytechnic Institute): neural-network-based shear estimation (ShearNet)"
-      - bullet: "**Jun&ndash;Jul 2026** &mdash; Karuna Tarafdar and Adam Aoua, NSF-funded Young Scholars Program (YSP), Northeastern University"
-      - bullet: "**Jun&ndash;Jul 2025** &mdash; Leila Ohashi and Marcus Michaud, NSF-funded Young Scholars Program (YSP), Northeastern University"
-      - bullet: "**2024&ndash;2025** &mdash; Maya Amit, Northeastern Co-op program; currently a graduate student at NYU"
+      - bullet: "**Aug 2025&ndash;present** &mdash; Leila Ohashi: led to a first-author publication ([arXiv:2610.06635](https://arxiv.org/abs/2610.06635)) and a significant contribution to [arXiv:2610.07244](https://arxiv.org/abs/2610.07244), earning co-authorship"
+      - bullet: "**May 2025&ndash;present** &mdash; Adam Field (undergraduate, Worcester Polytechnic Institute): neural-network shear estimation (ShearNet), leading to a first-author publication nearing submission"
+      - bullet: "**2024&ndash;2025** &mdash; Maya Amit (Northeastern Co-op program): significant contribution to [arXiv:2610.07244](https://arxiv.org/abs/2610.07244), leading to second authorship, and co-authorship on [arXiv:2603.18376](https://arxiv.org/abs/2603.18376); currently a graduate student at NYU"
+      - bullet: "**Jun&ndash;Jul 2026** &mdash; NSF Young Scholars Program, Northeastern University: mentor to Karuna Tarafdar and Adam Aoua; completed project, presented poster and talk"
+      - bullet: "**Jun&ndash;Jul 2025** &mdash; NSF Young Scholars Program, Northeastern University: mentor to Leila Ohashi and Marcus Michaud; completed project, presented poster and talk"
